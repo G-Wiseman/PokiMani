@@ -1,0 +1,6 @@
+@PokiMani_HostAddress = http://localhost:5208
+
+GET {{PokiMani_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
