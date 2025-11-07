@@ -1,0 +1,35 @@
+@use "../../utilities/color_pallete.scss" as *;
+
+.banner{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3%;
+    background-color: $base-200;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.banner__component{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: 1%;
+    margin-right: 1%;
+    color: $primary;
+    background-color: $neutral;
+    width: 20%;
+    height: 70%;
+}
+
+.banner__text{
+    &--positive{
+        color: $success;
+    }
+
+    &--negative{
+        color: $error;
+    }
+}
