@@ -1,0 +1,56 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PokiMani.Core.DTOs;
+using PokiMani.Core.Entities;
+using PokiMani.Core.Interfaces.IServices;
+
+
+namespace PokiMani.Api.Controllers
+{
+    [Route("api/account-transaction")]
+    [ApiController]
+    [Authorize]
+    public class AccountTransactionController : ControllerBase
+    {
+        IAccountTransactionService _accountTransactionService;
+        public AccountTransactionController(IAccountTransactionService accountTransactionService) 
+        {
+            _accountTransactionService = accountTransactionService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAccountTransactions()
+        {
+            var result = await _accountTransactionService.GetUserAccountTransactionsAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetAccountTransactionById(Guid id)
+        {
+            var result = _accountTransactionService.GetAccountTransactionByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewAccountTransaction(CreateAccountTransactionDto dto)
+        {
+            var result = await _accountTransactionService.CreateAccountTransactionAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPatch("{id:Guid}")]
+        public IActionResult UpdateNewAccountTransaction(Guid id, AccountTransactionDto dto)
+        {
+            return StatusCode(503, "Not ImplementedYet");
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteAccountTransaction(Guid id)
+        {
+            await _accountTransactionService.DeleteAccountTransactionAsync(id);
+            return Ok();
+        }
+    }
+}

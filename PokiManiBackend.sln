@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36616.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokiMani.Core", "PokiManiBackend\PokiMani.Core\PokiMani.Core.csproj", "{3D30B813-C8C9-4D6D-9198-90A01D8AA842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokiMani.Infrastructure", "PokiManiBackend\PokiMani.Infrastructure\PokiMani.Infrastructure.csproj", "{3C74A2BC-35C7-4ADD-8DD9-7DA28EB7E620}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokiMani.Api", "PokiManiBackend\PokiMani.Api\PokiMani.Api.csproj", "{E70B8A63-ED3B-4B42-A55C-69D8F1932E66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D30B813-C8C9-4D6D-9198-90A01D8AA842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D30B813-C8C9-4D6D-9198-90A01D8AA842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D30B813-C8C9-4D6D-9198-90A01D8AA842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D30B813-C8C9-4D6D-9198-90A01D8AA842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C74A2BC-35C7-4ADD-8DD9-7DA28EB7E620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C74A2BC-35C7-4ADD-8DD9-7DA28EB7E620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C74A2BC-35C7-4ADD-8DD9-7DA28EB7E620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C74A2BC-35C7-4ADD-8DD9-7DA28EB7E620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E70B8A63-ED3B-4B42-A55C-69D8F1932E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E70B8A63-ED3B-4B42-A55C-69D8F1932E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E70B8A63-ED3B-4B42-A55C-69D8F1932E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E70B8A63-ED3B-4B42-A55C-69D8F1932E66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAA81041-925B-4004-8776-32851C2741A1}
+	EndGlobalSection
+EndGlobal
