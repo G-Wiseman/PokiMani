@@ -2,11 +2,13 @@ import { createContext, useContext, useLayoutEffect, useRef, useState } from 're
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { pokiManiApiAxios } from './apiClient';
+import { useQueryClient } from '@tanstack/react-query';
 
 
 const PokiManiAuthContext = createContext();
 
 export const PokiManiAuthProvider = ({ children }) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const jwt = useRef(); // in-memory only
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -102,9 +104,10 @@ export const PokiManiAuthProvider = ({ children }) => {
   }
   // Logout function
   const logout = () => {
-    //FIXME: This will need to send a logout to the server to invalidate the cookie. I don't have that endpoint yet... :(
+    pokiManiApiAxios.post("/Auth/logout");
     jwt.current = null;
     setIsAuthenticated(false);
+    queryClient.removeQueries();
     navigate('/login');
   };
 

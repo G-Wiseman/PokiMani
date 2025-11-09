@@ -58,7 +58,6 @@ namespace PokiMani.Core.Services
             if (storedToken == null) { return; }
             storedToken.IsRevoked = true;
             await _dbContext.SaveChangesAsync();
-            return;
         }
     }
 }

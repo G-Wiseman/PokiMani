@@ -53,7 +53,15 @@ namespace PokiMani.Core.Services
             return Result<(string, string, CoreUser)>.Success((jwtResult.Value!, refreshTokenResult.Value!.Token, userResult.Value!));
         }
 
-        public async Task<Result<(string Jwt, string RefreshToken, CoreUser user)>> RegisterNewUser(string username, string password, string email)
+        public async Task LogoutRefreshSessionAsync(string? refreshToken)
+        {
+            if (refreshToken != null)
+            {
+                await _refreshTokenService.RevokeTokenAsync(refreshToken);
+            }
+        }
+
+        public async Task<Result<(string Jwt, string RefreshToken, CoreUser user)>> RegisterNewUserAsync(string username, string password, string email)
         {
             var userResult = await _userAuthenticator.CreateNewUserAync(username: username, email: email, password:password);
             if (!userResult.Succeeded) { return Result<(string, string, CoreUser)>.Failure(userResult.Error!); }

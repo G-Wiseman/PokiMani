@@ -53,7 +53,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // Vite dev server
+        policy.WithOrigins("http://localhost:5173", "http://localhost:4173") // Vite dev & preview servers
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();

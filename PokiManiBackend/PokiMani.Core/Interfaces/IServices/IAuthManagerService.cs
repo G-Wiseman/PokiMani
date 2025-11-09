@@ -7,6 +7,8 @@ namespace PokiMani.Core.Interfaces.IServices
         public Task<Result<(string Jwt, string RefreshToken, CoreUser user)>> LoginWithPasswordAsync(string username, string password);
         public Task<Result<(string Jwt, string RefreshToken, CoreUser user)>> LoginWithRefreshTokenAsync(string? refreshToken);
 
-        public Task<Result<(string Jwt, string RefreshToken, CoreUser user)>> RegisterNewUser(string username, string password, string email);
+        public Task<Result<(string Jwt, string RefreshToken, CoreUser user)>> RegisterNewUserAsync(string username, string password, string email);
+
+        public Task LogoutRefreshSessionAsync(string? refreshToken);
     }
 }

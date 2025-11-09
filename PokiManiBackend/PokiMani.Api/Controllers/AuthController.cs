@@ -51,7 +51,6 @@ namespace PokiMani.Api.Controllers
         public async Task<IActionResult> RefreshJWT()
         {
             Request.Cookies.TryGetValue("refreshToken", out var oldRefreshToken);
-            Console.WriteLine($"The old token: {oldRefreshToken}");
 
             var authResult = await _authmanager.LoginWithRefreshTokenAsync(oldRefreshToken);
             if (!authResult.Succeeded) {
@@ -77,7 +76,7 @@ namespace PokiMani.Api.Controllers
         [HttpPost("user")]
         public async Task<IActionResult> AddUser(AddUserDto dto)
         {
-            var authResult = await _authmanager.RegisterNewUser(dto.Name, dto.Password, dto.Email);
+            var authResult = await _authmanager.RegisterNewUserAsync(dto.Name, dto.Password, dto.Email);
             if (!authResult.Succeeded) { return BadRequest( new {Error = authResult.Error}); }
 
             var cookieOptions = new CookieOptions
@@ -94,6 +93,14 @@ namespace PokiMani.Api.Controllers
             {
                 AccessToken = authResult!.Value!.Jwt,
             });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
+            await _authmanager.LogoutRefreshSessionAsync(refreshToken);
+            return Ok();
         }
     }
 }
