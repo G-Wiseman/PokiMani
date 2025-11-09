@@ -24,6 +24,7 @@ namespace PokiMani.Api.Controllers
         [HttpPost("token")]
         public async Task<IActionResult> LoginWithPassword(SessionDto dto)
         {
+            Console.WriteLine("In the /api/Auth/token controller");
 
             var authResult = await _authmanager.LoginWithPasswordAsync(dto.UserName, dto.Password);
             if (authResult == null){
@@ -50,6 +51,7 @@ namespace PokiMani.Api.Controllers
         public async Task<IActionResult> RefreshJWT()
         {
             Request.Cookies.TryGetValue("refreshToken", out var oldRefreshToken);
+            Console.WriteLine($"The old token: {oldRefreshToken}");
 
             var authResult = await _authmanager.LoginWithRefreshTokenAsync(oldRefreshToken);
             if (!authResult.Succeeded) {

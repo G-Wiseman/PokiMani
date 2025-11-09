@@ -49,6 +49,17 @@ builder.Services.AddSwaggerGen(options =>
 
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // Vite dev server
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = Environment.GetEnvironmentVariable("POKIMANI_DB");
@@ -117,15 +128,18 @@ builder.Services.AddAuthentication(options =>
 
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors("ReactPolicy");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

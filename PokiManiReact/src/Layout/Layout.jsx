@@ -5,13 +5,13 @@ function Layout() {
 
   return (
     <>
-    <div className="layout">
+      <div className="layout">
         <div className="layout__sidebar"></div>
         <div className="layout__banner">
-          <Banner/>
+          <Banner />
         </div>
         <div className="layout__page"></div>
-        </div>
+      </div>
     </>
   )
 }

@@ -1,6 +1,6 @@
 @use "../../utilities/color_pallete.scss" as *;
 
-.banner{
+.banner {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -11,7 +11,7 @@
     width: 100%;
 }
 
-.banner__component{
+.banner__component {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -24,12 +24,12 @@
     height: 70%;
 }
 
-.banner__text{
-    &--positive{
+.banner__text {
+    &--positive {
         color: $success;
     }
 
-    &--negative{
+    &--negative {
         color: $error;
     }
 }
