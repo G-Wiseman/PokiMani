@@ -16,11 +16,11 @@ namespace PokiMani.Api.Controllers
     [Authorize]
     [Route("api/envelopes")]
     [ApiController]
-    public class EnvelopesController: ControllerBase
+    public class EnvelopeController: ControllerBase
     {
         IEnvelopeService _envelopeService;
 
-        public EnvelopesController(IEnvelopeService envelopeService)
+        public EnvelopeController(IEnvelopeService envelopeService)
         {
             _envelopeService = envelopeService;
         }
