@@ -1,15 +1,28 @@
 import { createContext, useContext, useLayoutEffect, useRef, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { pokiManiApiAxios } from "./apiClient";
+import { useNavigate } from "react-router";
 import { useQueryClient } from "@tanstack/react-query";
+import { pokiManiApiAxios } from "./axiosClient";
 
-const PokiManiAuthContext = createContext();
+type authResult = { success: boolean; message: string };
 
-export const PokiManiAuthProvider = ({ children }) => {
+interface PokiManiAuthContextType {
+    isAuthenticated: boolean;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    login: (username: string, password: string) => Promise<authResult>;
+    logout: () => void;
+    refresh: () => Promise<authResult>;
+}
+
+interface PokiManiAuthProviderProps {
+    children: React.ReactNode;
+}
+
+const PokiManiAuthContext = createContext<PokiManiAuthContextType>();
+
+export const PokiManiAuthProvider = ({ children }: PokiManiAuthProviderProps) => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const jwt = useRef(); // in-memory only
+    const jwt = useRef(null); // in-memory only
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useLayoutEffect(() => {
@@ -31,7 +44,7 @@ export const PokiManiAuthProvider = ({ children }) => {
                         // Attempt refresh
                         if (originalRequest.url === "/Auth/refresh") {
                             // DO NOT RECURSE INFINTELY HERE. STOP IF EVER RETRYING A REFRESH...
-                            throw new error(err);
+                            throw new Error(err);
                         }
 
                         await refresh();
@@ -52,7 +65,7 @@ export const PokiManiAuthProvider = ({ children }) => {
     }, []);
 
     // Login function
-    const login = async (username, password) => {
+    const login = async (username: string, password: string) => {
         try {
             const response = await pokiManiApiAxios.post("/Auth/token", {
                 userName: username,
@@ -62,17 +75,17 @@ export const PokiManiAuthProvider = ({ children }) => {
             if (response.status === 200 && response.data.accessToken) {
                 jwt.current = response.data.accessToken;
                 setIsAuthenticated(true);
-                return { success: true };
+                return { success: true, message: "" };
             } else {
                 return {
                     success: false,
                     message: "Invalid response from server",
                 };
             }
-        } catch (err) {
+        } catch {
             return {
                 success: false,
-                message: err.response?.data?.message || err.message || "Login failed",
+                message: "Login failed",
             };
         }
     };
@@ -84,28 +97,30 @@ export const PokiManiAuthProvider = ({ children }) => {
             if (response.status === 200 && response.data.accessToken) {
                 jwt.current = response.data.accessToken;
                 setIsAuthenticated(true);
-                return { success: true, token: response.data.accessToken };
+                return { success: true, message: "" };
             } else {
                 jwt.current = null;
                 setIsAuthenticated(false);
                 return { success: false, message: "Refresh failed" };
             }
-        } catch (err) {
+        } catch {
             jwt.current = null;
             setIsAuthenticated(false);
-            return {
-                success: false,
-                message: err.response?.data?.message || err.message || "Refresh failed",
-            };
+            return { success: false, message: "Refresh failed" };
         }
     };
     // Logout function
-    const logout = () => {
-        pokiManiApiAxios.post("/Auth/logout");
-        jwt.current = null;
-        setIsAuthenticated(false);
-        queryClient.removeQueries();
-        navigate("/login");
+    const logout = async () => {
+        try {
+            await pokiManiApiAxios.post("/Auth/logout"); // await the promise
+        } catch (error) {
+            console.error("Logout failed:", error);
+        } finally {
+            if (jwt) jwt.current = null;
+            setIsAuthenticated(false);
+            queryClient.removeQueries();
+            navigate("/login");
+        }
     };
 
     return (

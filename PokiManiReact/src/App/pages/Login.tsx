@@ -1,18 +1,16 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { pokiManiApiAxios as api } from "../../api/apiClient";
 import { usePokiManiApi } from "../../api/PokiManiAuthProvider";
 
 export default function Login() {
-    const { isAuthenticated, setIsAuthenticated, login, logout, refresh } = usePokiManiApi();
+    const { login } = usePokiManiApi();
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
 
