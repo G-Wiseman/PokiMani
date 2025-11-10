@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokiMani.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/envelope-transactions")]
     [ApiController]
     public class EnvelopeTransactionController : ControllerBase
     {

@@ -14,7 +14,7 @@ using System.Security.Claims;
 namespace PokiMani.Api.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/envelopes")]
     [ApiController]
     public class EnvelopesController: ControllerBase
     {

@@ -8,7 +8,7 @@ using PokiMani.Core.Interfaces.IServices;
 
 namespace PokiMani.Api.Controllers
 {
-    [Route("api/account-transaction")]
+    [Route("api/account-transactions")]
     [ApiController]
     [Authorize]
     public class AccountTransactionController : ControllerBase

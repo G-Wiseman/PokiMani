@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PokiMani.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
     [ApiController]
     [Authorize]
     public class AccountController : ControllerBase
