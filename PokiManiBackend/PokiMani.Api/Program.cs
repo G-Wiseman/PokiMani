@@ -15,6 +15,7 @@ using PokiMani.Infrastructure.Data;
 using PokiMani.Infrastructure.Authentication;
 using PokiMani.Infrastructure.InfrastureServices;
 using PokiMani.Infrastructure.Repositories;
+using PokiMani.Api.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.OperationFilter<CommonResponseFilters>();
     options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",

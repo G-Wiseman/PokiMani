@@ -7,6 +7,8 @@ using PokiMani.Core.Entities;
 using PokiMani.Core.Interfaces.IServices;
 using PokiMani.Core.Interfaces.IServicesInfrastructure;
 using PokiMani.Infrastructure.Data;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Swagger;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,24 +27,25 @@ namespace PokiMani.Api.Controllers
             _envelopeService = envelopeService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Envelope>))]
         [HttpGet]
-        public async Task<IActionResult> getAllEnvelopes()
+        public async Task<ActionResult<IEnumerable<Envelope>>> getAllEnvelopes()
         {
             var result = await _envelopeService.GetUserEnvelopesAsync();
             return Ok(result);
         }
 
-
+        [ProducesResponseType(StatusCodes.Status200OK,Type= typeof(Envelope))]
         [HttpPost]
-        public async Task<IActionResult> AddEnvelope(EnvelopeDto dto)
+        public async Task<ActionResult<Envelope>> AddEnvelope(EnvelopeDto dto)
         {
             var result = await _envelopeService.CreateEnvelopeAsync(dto);
             return Ok(result);
         }
 
-
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Envelope))]
         [HttpGet("{id:Guid}")] 
-        public async Task<IActionResult> GetSingleEnvelope(Guid id)
+        public async Task<ActionResult<Envelope>> GetSingleEnvelope(Guid id)
         {
             var result = await _envelopeService.GetEnvelopeByIdAsync(id);
             return Ok(result);
@@ -54,11 +57,12 @@ namespace PokiMani.Api.Controllers
             return StatusCode(503, "Not Implemented Yet");
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> DeleteSingleEnvelope(Guid id)
         {
             await _envelopeService.DeleteEnvelopeAsync(id);
-            return Ok();
+            return NoContent();
         }
     }
 }
