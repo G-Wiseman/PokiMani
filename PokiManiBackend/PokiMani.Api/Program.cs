@@ -93,6 +93,7 @@ builder.Services.AddScoped<IEnvelopeTransactionRepository, EnvelopeTransactionRe
 builder.Services.AddScoped<IEnvelopeService, EnvelopeService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountTransactionService, AccountTransactionService>();
+builder.Services.AddScoped<IEnvelopeTransactionService, EnvelopeTransactionService>();
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
