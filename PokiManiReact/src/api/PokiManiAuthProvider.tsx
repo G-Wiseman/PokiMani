@@ -23,7 +23,15 @@ export interface PokiManiAuthContextType {
     refresh: () => void;
     register: (name: string, email: string, password: string) => void;
 }
-let refreshPromsise: Promise<void> | null = null;
+let refreshPromise: Promise<void> | null = null;
+const getRefreshPromise = () => {
+    return refreshPromise;
+};
+
+const setRefreshPromise = (newPromise: Promise<void> | null) => {
+    refreshPromise = newPromise;
+};
+
 let jwt: string | null = null; // in-memory only
 
 const getJwt = () => {
@@ -118,22 +126,24 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
     useEffect(() => {
         const init = async () => {
             try {
-                if (!refreshPromsise) {
-                    refreshPromsise = refresh()
-                        .then(() => {
-                            console.log("hei");
-                            setIsAuthenticated(true);
-                        })
-                        .catch(err => {
-                            console.log("failed to refresh");
-                            setIsAuthenticated(false);
-                            throw err;
-                        })
-                        .finally(() => {
-                            refreshPromsise = null;
-                        });
+                if (!getRefreshPromise()) {
+                    setRefreshPromise(
+                        refresh()
+                            .then(() => {
+                                console.log("hei");
+                                setIsAuthenticated(true);
+                            })
+                            .catch(err => {
+                                console.log("failed to refresh");
+                                setIsAuthenticated(false);
+                                throw err;
+                            })
+                            .finally(() => {
+                                refreshPromise = null;
+                            }),
+                    );
                 }
-                await refreshPromsise;
+                await getRefreshPromise();
             } catch {}
         };
         init();
@@ -160,18 +170,21 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
                     try {
                         // Attempt refresh
 
-                        if (!refreshPromsise) {
-                            refreshPromsise = refresh()
-                                .then(() => {
-                                    refreshPromsise = null;
-                                    setIsAuthenticated(true);
-                                })
-                                .catch(err => {
-                                    setIsAuthenticated(false);
-                                    throw err;
-                                });
+                        if (!getRefreshPromise()) {
+                            setRefreshPromise(
+                                refresh()
+                                    .then(() => {
+                                        refreshPromise = null;
+                                        setIsAuthenticated(true);
+                                    })
+                                    .catch(err => {
+                                        refreshPromise = null;
+                                        setIsAuthenticated(false);
+                                        throw err;
+                                    }),
+                            );
                         }
-                        await refreshPromsise;
+                        await getRefreshPromise();
                         // Retry the original request
                         originalRequest.headers["Authorization"] = `Bearer ${getJwt()}`;
                         return await axiosClient.request(originalRequest);

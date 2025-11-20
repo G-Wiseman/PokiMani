@@ -40,7 +40,11 @@ export default function Home() {
         );
     };
 
-    const envsList = envs ? envs.map(env => <EnvelopeLine envId={env.id!} />) : <div></div>;
+    const envsList = envs ? (
+        envs.map(env => <EnvelopeLine envId={env.id!} key={env.id} />)
+    ) : (
+        <div></div>
+    );
 
     return (
         <div>

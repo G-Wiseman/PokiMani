@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { useGetApiEnvelopesId } from "../api/PokiManiApi";
+import { useDeleteApiEnvelopesId, useGetApiEnvelopesId } from "../api/PokiManiApi";
 import "./EnvelopeLine.scss";
 import { NumberField, Input, ProgressBar } from "react-aria-components";
 import { clsx } from "clsx";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 export default function EnvelopeLine({ envId }: { envId: string }) {
     const [balanceUpdate, setBalanceUpdate] = useState(0);
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: deleteAsync } = useDeleteApiEnvelopesId();
 
     const { data, isLoading } = useGetApiEnvelopesId(envId, {
         query: { queryKey: ["envelopes", envId] },
@@ -49,7 +53,21 @@ export default function EnvelopeLine({ envId }: { envId: string }) {
                         }}
                     />
                 </NumberField>
-                <button className="envelopeLine__delete">Delete</button>
+                <button
+                    className="envelopeLine__delete"
+                    onClick={async () => {
+                        await deleteAsync(
+                            { id: envId },
+                            {
+                                onSuccess: () => {
+                                    queryClient.invalidateQueries({ queryKey: ["envelopes"] });
+                                },
+                            },
+                        );
+                    }}
+                >
+                    Delete
+                </button>
             </div>
         </>
     );
