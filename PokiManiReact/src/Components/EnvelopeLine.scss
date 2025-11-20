@@ -1,1 +1,43 @@
 @use "../utilities/color_pallete.scss" as *;
+
+.envelopeLine__outer {
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    width: 100%;
+    background-color: $base-300;
+}
+
+.envelopeLine__name {
+    color: $primary;
+}
+
+.envelopeLine__balances {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+.envelopeLine__balance_current {
+    flex-grow: 1;
+    flex-shrink: 1;
+    &--updating {
+        height: 70%;
+        transform-origin: top;
+        color: $neutral;
+    }
+}
+
+.envelopeLine__balance_updated {
+    color: $success;
+    flex-grow: 1;
+    flex-shrink: 1;
+    &--visible {
+        display: block;
+    }
+    &--invisible {
+        display: none;
+    }
+}

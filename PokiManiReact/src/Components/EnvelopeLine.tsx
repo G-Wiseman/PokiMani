@@ -1,6 +1,12 @@
+import { useState } from "react";
 import { useGetApiEnvelopesId } from "../api/PokiManiApi";
+import "./EnvelopeLine.scss";
+import { NumberField, Input, ProgressBar } from "react-aria-components";
+import { clsx } from "clsx";
 
 export default function EnvelopeLine({ envId }: { envId: string }) {
+    const [balanceUpdate, setBalanceUpdate] = useState(0);
+
     const { data, isLoading } = useGetApiEnvelopesId(envId, {
         query: { queryKey: ["envelopes", envId] },
     });
@@ -12,8 +18,38 @@ export default function EnvelopeLine({ envId }: { envId: string }) {
         <>
             <div className="envelopeLine__outer">
                 <div className="envelopeLine__name">{data!.name!}</div>
-                <div className="envelopeLine__balance">{data!.balance!}</div>
-                <div className="envelopeLine__"></div>
+                <div className="envelopeLine__balance">
+                    <div
+                        className={clsx(
+                            "envelopeLine__balance_current",
+                            balanceUpdate !== 0 && "envelopeLine__balance_current--updating",
+                        )}
+                    >
+                        {data!.balance!}
+                    </div>
+                    <div
+                        className={clsx(
+                            "envelopeLine__balance_updated",
+                            balanceUpdate === 0 && "envelopeLine__balance_updated--invisible",
+                            balanceUpdate !== 0 && "envelopeLine__balance_updated--visible",
+                        )}
+                    >
+                        {data!.balance! + balanceUpdate}
+                    </div>
+                </div>
+
+                <NumberField defaultValue={0} aria-label="BalanceUpdateField">
+                    <Input
+                        onInput={e => {
+                            const value = (e.target as HTMLInputElement).value;
+                            const parsed = Number(value);
+                            if (!Number.isNaN(parsed) && Number.isFinite(parsed)) {
+                                setBalanceUpdate(parsed);
+                            }
+                        }}
+                    />
+                </NumberField>
+                <button className="envelopeLine__delete">Delete</button>
             </div>
         </>
     );

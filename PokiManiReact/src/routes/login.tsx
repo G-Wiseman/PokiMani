@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouter, useSearch } from "@tanstack/react-router";
 import { usePokiManiAuth } from "../api/PokiManiAuthProvider";
-import { useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+import Home from "./_authenticated/home";
 
 export const Route = createFileRoute("/login")({
     component: Login,
@@ -13,6 +14,15 @@ export default function Login() {
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
+    const search = useSearch({ from: "/login" });
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (isAuthenticated) {
+            console.log("search", search);
+            // Only navigate to redirect if it exists, otherwise fallback to /home
+            navigate({ to: "/home" });
+        }
+    }, [isAuthenticated]);
 
     const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,7 +36,7 @@ export default function Login() {
 
     return (
         <div>
-            <h1>{isAuthenticated ? "Login" : "LOGOGO"}</h1>
+            <h1>{isAuthenticated ? "Acutally Already Authed" : "Not Logged In"}</h1>
             <form onSubmit={handleLoginSubmit}>
                 <div>
                     <label>Username:</label>

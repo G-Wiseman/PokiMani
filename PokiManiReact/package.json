@@ -15,7 +15,9 @@
         "@tanstack/react-router": "^1.136.0",
         "@tanstack/react-router-devtools": "^1.136.0",
         "axios": "^1.13.2",
+        "clsx": "^2.1.1",
         "react": "^19.1.1",
+        "react-aria-components": "^1.13.0",
         "react-dom": "^19.1.1"
     },
     "devDependencies": {

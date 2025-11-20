@@ -4,7 +4,6 @@ import {
     useContext,
     useEffect,
     useLayoutEffect,
-    useRef,
     useState,
 } from "react";
 import { axiosClient } from "./axiosClient";
@@ -19,52 +18,60 @@ import { useQueryClient } from "@tanstack/react-query";
 export interface PokiManiAuthContextType {
     isAuthenticated: boolean;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-    isLoading: boolean;
     login: (username: string, password: string) => void;
     logout: () => void;
     refresh: () => void;
     register: (name: string, email: string, password: string) => void;
 }
+let refreshPromsise: Promise<void> | null = null;
+let jwt: string | null = null; // in-memory only
+
+const getJwt = () => {
+    return jwt;
+};
+
+const setJwt = (newJwt: string | null) => {
+    jwt = newJwt;
+};
 
 const PokiManiAuthContext = createContext<PokiManiAuthContextType>(undefined!);
 export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }) => {
     const queryClient = useQueryClient();
-    const { mutate: apiLogin } = usePostApiAuthLogin();
-    const { mutate: apiRefresh } = usePostApiAuthRefresh();
-    const { mutate: apiLogout } = usePostApiAuthLogout();
-    const { mutate: apiRegister } = usePostApiAuthRegister();
+    const { mutateAsync: apiLogin } = usePostApiAuthLogin();
+    const { mutateAsync: apiRefresh } = usePostApiAuthRefresh();
+    const { mutateAsync: apiLogout } = usePostApiAuthLogout();
+    const { mutateAsync: apiRegister } = usePostApiAuthRegister();
     // TODO: Add registration handler to this?
-    const jwt = useRef<string>(null); // in-memory only
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const refreshPromsise = useRef<Promise<void> | void>(null);
-    const isMounted = useRef<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Login function
-    const login = async (username: string, password: string) => {
-        await apiLogin(
-            { data: { userName: username, password: password } },
-            {
-                onSuccess: token => {
-                    jwt.current = token.accessToken;
-                    setIsAuthenticated(true);
+    const login = useCallback(
+        async (username: string, password: string) => {
+            await apiLogin(
+                { data: { userName: username, password: password } },
+                {
+                    onSuccess: token => {
+                        setJwt(token.accessToken);
+                        setIsAuthenticated(true);
+                    },
+                    onError: () => {
+                        setJwt(null);
+                        setIsAuthenticated(false);
+                    },
                 },
-                onError: () => {
-                    jwt.current = null;
-                    setIsAuthenticated(false);
-                },
-            },
-        );
-    };
+            );
+        },
+        [apiLogin],
+    );
 
     const refresh = useCallback(async () => {
         await apiRefresh(undefined, {
             onSuccess: token => {
-                jwt.current = token.accessToken;
+                setJwt(token.accessToken);
                 setIsAuthenticated(true);
             },
             onError: err => {
-                jwt.current = null;
+                setJwt(null);
                 console.log("it did fail");
                 setIsAuthenticated(false);
                 throw err;
@@ -77,7 +84,7 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
         await apiLogout(undefined, {
             onSuccess: () => {
                 queryClient.clear();
-                jwt.current = null;
+                setJwt(null);
                 setIsAuthenticated(false);
             },
             onError: err => {
@@ -87,51 +94,47 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
         });
     }, [apiLogout, queryClient]);
 
-    const register = async (name: string, email: string, password: string) => {
-        apiRegister(
-            {
-                data: {
-                    name: name,
-                    email: email,
-                    password: password,
+    const register = useCallback(
+        async (name: string, email: string, password: string) => {
+            await apiRegister(
+                {
+                    data: {
+                        name: name,
+                        email: email,
+                        password: password,
+                    },
                 },
-            },
-            {
-                onSuccess: token => {
-                    jwt.current = token.accessToken;
-                    setIsAuthenticated(true);
+                {
+                    onSuccess: token => {
+                        setJwt(token.accessToken);
+                        setIsAuthenticated(true);
+                    },
                 },
-            },
-        );
-    };
+            );
+        },
+        [apiRegister],
+    );
     // Runs ONCE on first page load
     useEffect(() => {
         const init = async () => {
-            if (!isMounted.current) {
-                try {
-                    if (!refreshPromsise.current) {
-                        refreshPromsise.current = refresh()
-                            .then(() => {
-                                console.log("hei");
-                                setIsAuthenticated(true);
-                            })
-                            .catch(err => {
-                                console.log("failed to refresh");
-                                setIsAuthenticated(false);
-                                throw err;
-                            })
-                            .finally(() => {
-                                refreshPromsise.current = null;
-                            });
-                    }
-                    await refreshPromsise;
-                    // setIsAuthenticated(true);
-                } catch {
-                    // setIsAuthenticated(false);
+            try {
+                if (!refreshPromsise) {
+                    refreshPromsise = refresh()
+                        .then(() => {
+                            console.log("hei");
+                            setIsAuthenticated(true);
+                        })
+                        .catch(err => {
+                            console.log("failed to refresh");
+                            setIsAuthenticated(false);
+                            throw err;
+                        })
+                        .finally(() => {
+                            refreshPromsise = null;
+                        });
                 }
-            }
-            setIsLoading(false);
-            isMounted.current = true;
+                await refreshPromsise;
+            } catch {}
         };
         init();
     }, [refresh]); // empty deps = exactly once
@@ -139,14 +142,7 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
     // change interceptors to new jwt
     useLayoutEffect(() => {
         const reqInterceptor = axiosClient.interceptors.request.use(async config => {
-            if (refreshPromsise.current) {
-                // Just pause while refreshing to get newest token.
-                await refreshPromsise.current;
-            }
-
-            if (jwt.current) {
-                config.headers["Authorization"] = `Bearer ${jwt.current}`;
-            }
+            config.headers["Authorization"] = `Bearer ${getJwt()}`;
             return config;
         });
 
@@ -164,10 +160,10 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
                     try {
                         // Attempt refresh
 
-                        if (!refreshPromsise.current) {
-                            refreshPromsise.current = refresh()
+                        if (!refreshPromsise) {
+                            refreshPromsise = refresh()
                                 .then(() => {
-                                    refreshPromsise.current = null;
+                                    refreshPromsise = null;
                                     setIsAuthenticated(true);
                                 })
                                 .catch(err => {
@@ -177,7 +173,7 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
                         }
                         await refreshPromsise;
                         // Retry the original request
-                        originalRequest.headers["Authorization"] = `Bearer ${jwt.current}`;
+                        originalRequest.headers["Authorization"] = `Bearer ${getJwt()}`;
                         return await axiosClient.request(originalRequest);
                     } catch {
                         // Refresh failed, log out
@@ -200,7 +196,6 @@ export const PokiManiAuthProvider = ({ children }: { children: React.ReactNode }
             value={{
                 isAuthenticated,
                 setIsAuthenticated,
-                isLoading,
                 login,
                 logout,
                 refresh,
