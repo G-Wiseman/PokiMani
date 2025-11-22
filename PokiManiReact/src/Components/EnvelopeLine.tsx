@@ -3,7 +3,7 @@ import { useDeleteApiEnvelopesId, useGetApiEnvelopesId } from "../api/PokiManiAp
 import "./EnvelopeLine.scss";
 import { NumberField, Input, ProgressBar } from "react-aria-components";
 import { clsx } from "clsx";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function EnvelopeLine({ envId }: { envId: string }) {
     const [balanceUpdate, setBalanceUpdate] = useState(0);
@@ -12,7 +12,7 @@ export default function EnvelopeLine({ envId }: { envId: string }) {
     const { mutateAsync: deleteAsync } = useDeleteApiEnvelopesId();
 
     const { data, isLoading } = useGetApiEnvelopesId(envId, {
-        query: { queryKey: ["envelopes", envId] },
+        query: { queryKey: ["envelopes", envId], staleTime: 1000 },
     });
     if (isLoading) {
         return <div>loading</div>;

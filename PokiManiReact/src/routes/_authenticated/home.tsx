@@ -13,7 +13,18 @@ export default function Home() {
     const queryClient = useQueryClient();
     const { isAuthenticated, logout } = usePokiManiAuth();
     const { mutate: newEnvelope } = usePostApiEnvelopes();
-    const { data: envs } = useGetApiEnvelopes({ query: { queryKey: ["envelopes"] } });
+    const { data: envs } = useGetApiEnvelopes({
+        query: {
+            queryKey: ["envelopes"],
+            select: envelopes => {
+                envelopes.forEach(e => {
+                    queryClient.setQueryData(["envelopes", e.id], e);
+                });
+                return envelopes;
+            },
+            staleTime: 1000,
+        },
+    });
     // const { data: accts } = useGetApiAccounts({ query: { queryKey: ["accounts"] } });
     // const { data: acctTs } = useGetApiAccountTransactions({
     //     query: { queryKey: ["account-transactions"] },
