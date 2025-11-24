@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { usePokiManiAuth } from "../../api/PokiManiAuthProvider";
 import { useGetApiEnvelopes, usePostApiEnvelopes } from "../../api/PokiManiApi";
 import EnvelopeLine from "../../Components/EnvelopeLine";
+import "./home.scss";
 
 export const Route = createFileRoute("/_authenticated/home")({
     component: Home,
@@ -51,18 +52,14 @@ export default function Home() {
         );
     };
 
-    const envsList = envs ? (
-        envs.map(env => <EnvelopeLine envId={env.id!} key={env.id} />)
-    ) : (
-        <div></div>
-    );
+    const envsList = envs ? envs.map(env => <EnvelopeLine envId={env.id!} key={env.id} />) : null;
 
     return (
-        <div>
+        <div className="home">
             <button onClick={logout}>Log Out</button>
             <button onClick={newEnv}> Make a random new Envelope! </button>
             <button onClick={logit}> Show me the cache </button>
-            {envsList}
+            <div className="envelopeList">{envsList}</div>
             <div>{isAuthenticated.toString()}</div>
         </div>
     );

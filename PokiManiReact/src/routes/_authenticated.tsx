@@ -1,6 +1,9 @@
 import { createFileRoute, redirect, Outlet, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePokiManiAuth } from "../api/PokiManiAuthProvider";
+import "./_authenticated.scss";
+import Banner from "../Components/Banner";
+import Navbar from "../Components/Navbar";
 export const Route = createFileRoute("/_authenticated")({
     component: AuthenticatedLayout,
     beforeLoad: async ({ context, location }) => {
@@ -24,6 +27,19 @@ export default function AuthenticatedLayout() {
             });
         }
     }, [isAuthenticated, navigate]);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    return <Outlet />;
+    return (
+        <div className="layout">
+            <aside className="layout__navbar">
+                <Navbar />
+            </aside>
+            <header className="layout__header">
+                <Banner />
+            </header>
+            <div className="layout__content">
+                <Outlet />
+            </div>
+        </div>
+    );
 }

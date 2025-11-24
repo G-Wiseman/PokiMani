@@ -1,0 +1,51 @@
+@use "../utilities/color_pallete.scss" as *;
+@use "../utilities/responsive.scss" as *;
+.layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+
+    &__navbar {
+        grid-row: 1 / span 2; // spans both banner + content
+        grid-column: 1;
+    }
+
+    &__banner {
+        width: 100%;
+        display: block;
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    &__content {
+        width: 100%;
+        display: block;
+        grid-column: 2;
+        grid-row: 2;
+        padding: 1rem;
+    }
+}
+
+// --- responsive ---
+@media (max-width: $mobile-width) {
+    .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: 100px auto 70px;
+
+        &__navbar {
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        &__banner {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        &__content {
+            grid-column: 1;
+            grid-row: 2;
+        }
+    }
+}

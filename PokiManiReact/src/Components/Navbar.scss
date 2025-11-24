@@ -1,0 +1,7 @@
+@use "../utilities/color_pallete.scss" as *;
+
+.navbar {
+    background-color: $base-400;
+    height: 100%;
+    width: 100%;
+}
