@@ -1,6 +1,7 @@
 import { createFileRoute, redirect, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { usePokiManiAuth } from "../api/PokiManiAuthProvider";
+import { Header } from "react-aria-components";
 import "./_authenticated.scss";
 import Banner from "../Components/Banner";
 import Navbar from "../Components/Navbar";
@@ -34,9 +35,9 @@ export default function AuthenticatedLayout() {
             <aside className="layout__navbar">
                 <Navbar />
             </aside>
-            <header className="layout__header">
+            <Header className="layout__banner">
                 <Banner />
-            </header>
+            </Header>
             <div className="layout__content">
                 <Outlet />
             </div>

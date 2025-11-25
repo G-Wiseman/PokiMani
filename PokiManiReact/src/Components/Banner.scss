@@ -1,6 +1,7 @@
 @use "../utilities/color_pallete.scss" as *;
 
 .banner {
-    min-height: 60px;
+    flex: 1;
+    display: flex;
     background-color: $base-300;
 }
