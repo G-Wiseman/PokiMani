@@ -12,7 +12,7 @@ export default function EnvelopeLine({ envId }: { envId: string }) {
     const { mutateAsync: deleteAsync } = useDeleteApiEnvelopesId();
 
     const { data, isLoading } = useGetApiEnvelopesId(envId, {
-        query: { queryKey: ["envelopes", envId], staleTime: 1000 },
+        query: { queryKey: ["envelopes", envId], staleTime: 1000 * 60 * 5 },
     });
     if (isLoading) {
         return <div>loading</div>;

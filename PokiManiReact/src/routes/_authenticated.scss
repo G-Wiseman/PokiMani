@@ -4,7 +4,7 @@
     display: grid;
     grid-template-columns: 250px 1fr;
     grid-template-rows: 85px 1fr;
-    min-height: 100vh;
+    height: 100vh;
 
     &__navbar {
         grid-row: 1 / span 2; // spans both banner + content
@@ -23,6 +23,7 @@
         grid-column: 2;
         grid-row: 2;
         padding: 1rem;
+        overflow-y: scroll;
     }
 }
 
@@ -30,7 +31,7 @@
 @media (max-width: $mobile-width) {
     .layout {
         grid-template-columns: 1fr;
-        grid-template-rows: 85px auto 70px;
+        grid-template-rows: 85px auto 80px;
 
         &__navbar {
             grid-column: 1;
@@ -45,6 +46,7 @@
         &__content {
             grid-column: 1;
             grid-row: 2;
+            overflow-y: scroll;
         }
     }
 }

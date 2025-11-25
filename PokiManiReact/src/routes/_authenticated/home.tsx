@@ -23,7 +23,7 @@ export default function Home() {
                 });
                 return envelopes;
             },
-            staleTime: 1000,
+            staleTime: 1000 * 60 * 5,
         },
     });
     // const { data: accts } = useGetApiAccounts({ query: { queryKey: ["accounts"] } });
@@ -56,9 +56,7 @@ export default function Home() {
 
     return (
         <div className="home">
-            <button onClick={logout}>Log Out</button>
             <button onClick={newEnv}> Make a random new Envelope! </button>
-            <button onClick={logit}> Show me the cache </button>
             <div className="envelopeList">{envsList}</div>
             <div>{isAuthenticated.toString()}</div>
         </div>
