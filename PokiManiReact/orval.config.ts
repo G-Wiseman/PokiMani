@@ -6,7 +6,7 @@ export default defineConfig({
         output: {
             baseUrl: "https://localhost:7017",
             target: "./src/api/PokiManiApi.ts",
-            mode: "single",
+            mode: "tags-split",
             client: "react-query",
 
             override: {

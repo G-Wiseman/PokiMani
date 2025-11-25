@@ -4,2170 +4,1800 @@
  * PokiMani.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
-    DataTag,
-    DefinedInitialDataOptions,
-    DefinedUseQueryResult,
-    MutationFunction,
-    QueryClient,
-    QueryFunction,
-    QueryKey,
-    UndefinedInitialDataOptions,
-    UseMutationOptions,
-    UseMutationResult,
-    UseQueryOptions,
-    UseQueryResult,
-} from "@tanstack/react-query";
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query';
 
-import { orvalClient } from "./axiosClient";
+import { orvalClient } from './axiosClient';
 export interface Account {
-    id?: string;
-    userId: string;
-    /** @nullable */
-    name: string | null;
-    createdDate: string;
-    /** @nullable */
-    closedDate?: string | null;
-    balance?: number;
+  id?: string;
+  userId: string;
+  /** @nullable */
+  name: string | null;
+  createdDate: string;
+  /** @nullable */
+  closedDate?: string | null;
+  balance?: number;
 }
 
 export interface AccountDto {
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    createdDate?: string | null;
-    /** @nullable */
-    closedDate?: string | null;
-    /** @nullable */
-    balance?: number | null;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  createdDate?: string | null;
+  /** @nullable */
+  closedDate?: string | null;
+  /** @nullable */
+  balance?: number | null;
 }
 
 export interface AccountTransaction {
-    id?: string;
-    userId: string;
-    accountId: string;
-    account?: Account;
-    amount: number;
-    /** @nullable */
-    memo?: string | null;
-    /** @nullable */
-    notes?: string | null;
-    cleared: boolean;
-    reconciled: boolean;
-    /** @nullable */
-    payee?: string | null;
+  id?: string;
+  userId: string;
+  accountId: string;
+  account?: Account;
+  amount: number;
+  /** @nullable */
+  memo?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  cleared: boolean;
+  reconciled: boolean;
+  /** @nullable */
+  payee?: string | null;
 }
 
 export interface AccountTransactionDto {
-    id?: string;
-    /** @nullable */
-    accountId?: string | null;
-    account?: Account;
-    /** @nullable */
-    amount?: number | null;
-    /** @nullable */
-    memo?: string | null;
-    /** @nullable */
-    notes?: string | null;
-    /** @nullable */
-    cleared?: boolean | null;
-    /** @nullable */
-    reconciled?: boolean | null;
-    /** @nullable */
-    payee?: string | null;
+  id?: string;
+  /** @nullable */
+  accountId?: string | null;
+  account?: Account;
+  /** @nullable */
+  amount?: number | null;
+  /** @nullable */
+  memo?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  cleared?: boolean | null;
+  /** @nullable */
+  reconciled?: boolean | null;
+  /** @nullable */
+  payee?: string | null;
 }
 
 export interface AddUserDto {
-    /** @nullable */
-    name: string | null;
-    /** @nullable */
-    email: string | null;
-    /** @nullable */
-    password: string | null;
-    /** @nullable */
-    phone?: string | null;
+  /** @nullable */
+  name: string | null;
+  /** @nullable */
+  email: string | null;
+  /** @nullable */
+  password: string | null;
+  /** @nullable */
+  phone?: string | null;
 }
 
 export interface CreateAccountTransactionDto {
-    accountId: string;
-    amount: number;
-    /** @nullable */
-    memo?: string | null;
-    /** @nullable */
-    notes?: string | null;
-    /** @nullable */
-    payee?: string | null;
+  accountId: string;
+  amount: number;
+  /** @nullable */
+  memo?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  payee?: string | null;
 }
 
 export interface CreateEnvelopeTransactionDto {
-    /** @nullable */
-    envelopeId?: string | null;
-    /** @nullable */
-    accountTransactionId?: string | null;
-    amount?: number;
+  /** @nullable */
+  envelopeId?: string | null;
+  /** @nullable */
+  accountTransactionId?: string | null;
+  amount?: number;
 }
 
 export interface Envelope {
-    id?: string;
-    userId: string;
-    /** @nullable */
-    parentId?: string | null;
-    parent?: Envelope;
-    /** @nullable */
-    name?: string | null;
-    isParent: boolean;
-    /** @nullable */
-    dateDestroyed?: string | null;
-    dateCreated: string;
-    balance: number;
-    /** @nullable */
-    color?: string | null;
+  id?: string;
+  userId: string;
+  /** @nullable */
+  parentId?: string | null;
+  parent?: Envelope;
+  /** @nullable */
+  name?: string | null;
+  isParent: boolean;
+  /** @nullable */
+  dateDestroyed?: string | null;
+  dateCreated: string;
+  balance: number;
+  /** @nullable */
+  color?: string | null;
 }
 
 export interface EnvelopeDto {
-    /** @nullable */
-    balance?: number | null;
-    /** @nullable */
-    color?: string | null;
-    /** @nullable */
-    isParent?: boolean | null;
-    /** @nullable */
-    name?: string | null;
-    /** @nullable */
-    parentId?: string | null;
-    /** @nullable */
-    dateCreated?: string | null;
-    /** @nullable */
-    dateDestroyed?: string | null;
+  /** @nullable */
+  balance?: number | null;
+  /** @nullable */
+  color?: string | null;
+  /** @nullable */
+  isParent?: boolean | null;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  parentId?: string | null;
+  /** @nullable */
+  dateCreated?: string | null;
+  /** @nullable */
+  dateDestroyed?: string | null;
 }
 
 export interface EnvelopeTransaction {
-    id?: string;
-    userId: string;
-    /** @nullable */
-    envelopeId?: string | null;
-    envelope?: Envelope;
-    /** @nullable */
-    accountTransactionId?: string | null;
-    accountTransaction?: AccountTransaction;
-    amount: number;
+  id?: string;
+  userId: string;
+  /** @nullable */
+  envelopeId?: string | null;
+  envelope?: Envelope;
+  /** @nullable */
+  accountTransactionId?: string | null;
+  accountTransaction?: AccountTransaction;
+  amount: number;
 }
 
 export interface EnvelopeTransactionDto {
-    /** @nullable */
-    envelopeId?: string | null;
-    /** @nullable */
-    accountTransactionId?: string | null;
-    /** @nullable */
-    amount?: number | null;
+  /** @nullable */
+  envelopeId?: string | null;
+  /** @nullable */
+  accountTransactionId?: string | null;
+  /** @nullable */
+  amount?: number | null;
 }
 
 export interface SessionDto {
-    /** @nullable */
-    userName: string | null;
-    /** @nullable */
-    password: string | null;
+  /** @nullable */
+  userName: string | null;
+  /** @nullable */
+  password: string | null;
 }
 
 export interface TokenDto {
-    /** @nullable */
-    accessToken: string | null;
+  /** @nullable */
+  accessToken: string | null;
 }
 
-export const getApiAccounts = (signal?: AbortSignal) => {
-    return orvalClient<Account[]>({
-        url: `https://localhost:7017/api/accounts`,
-        method: "GET",
-        signal,
-    });
-};
+export const getApiAccounts = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<Account[]>(
+      {url: `https://localhost:7017/api/accounts`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getGetApiAccountsQueryKey = () => {
-    return [`https://localhost:7017/api/accounts`] as const;
-};
+    return [
+    `https://localhost:7017/api/accounts`
+    ] as const;
+    }
 
-export const getGetApiAccountsQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiAccounts>>,
-    TError = void,
->(options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>>;
-}) => {
-    const { query: queryOptions } = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getGetApiAccountsQueryKey();
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccounts>>> = ({ signal }) =>
-        getApiAccounts(signal);
-
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAccounts>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetApiAccountsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAccounts>>>;
-export type GetApiAccountsQueryError = void;
-
-export function useGetApiAccounts<
-    TData = Awaited<ReturnType<typeof getApiAccounts>>,
-    TError = void,
->(
-    options: {
-        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>> &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccounts>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccounts>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccounts<
-    TData = Awaited<ReturnType<typeof getApiAccounts>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccounts>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccounts>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccounts<
-    TData = Awaited<ReturnType<typeof getApiAccounts>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>>;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-export function useGetApiAccounts<
-    TData = Awaited<ReturnType<typeof getApiAccounts>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>>;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiAccountsQueryOptions(options);
-
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
-}
-
-export const postApiAccounts = (accountDto: AccountDto, signal?: AbortSignal) => {
-    return orvalClient<Account>({
-        url: `https://localhost:7017/api/accounts`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: accountDto,
-        signal,
-    });
-};
-
-export const getPostApiAccountsMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postApiAccounts>>,
-        TError,
-        { data: AccountDto },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAccounts>>,
-    TError,
-    { data: AccountDto },
-    TContext
-> => {
-    const mutationKey = ["postApiAccounts"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiAccounts>>,
-        { data: AccountDto }
-    > = props => {
-        const { data } = props ?? {};
-
-        return postApiAccounts(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiAccountsMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiAccounts>>
->;
-export type PostApiAccountsMutationBody = AccountDto;
-export type PostApiAccountsMutationError = void;
-
-export const usePostApiAccounts = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiAccounts>>,
-            TError,
-            { data: AccountDto },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postApiAccounts>>,
-    TError,
-    { data: AccountDto },
-    TContext
-> => {
-    const mutationOptions = getPostApiAccountsMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
-
-export const getApiAccountsId = (id: string, signal?: AbortSignal) => {
-    return orvalClient<Account>({
-        url: `https://localhost:7017/api/accounts/${id}`,
-        method: "GET",
-        signal,
-    });
-};
-
-export const getGetApiAccountsIdQueryKey = (id?: string) => {
-    return [`https://localhost:7017/api/accounts/${id}`] as const;
-};
-
-export const getGetApiAccountsIdQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiAccountsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>
-        >;
-    },
+    
+export const getGetApiAccountsQueryOptions = <TData = Awaited<ReturnType<typeof getApiAccounts>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>>, }
 ) => {
-    const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetApiAccountsIdQueryKey(id);
+const {query: queryOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccountsId>>> = ({ signal }) =>
-        getApiAccountsId(id, signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetApiAccountsQueryKey();
 
-    return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAccountsId>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetApiAccountsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAccountsId>>>;
-export type GetApiAccountsIdQueryError = void;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccounts>>> = ({ signal }) => getApiAccounts(signal);
 
-export function useGetApiAccountsId<
-    TData = Awaited<ReturnType<typeof getApiAccountsId>>,
-    TError = void,
->(
-    id: string,
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccountsId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccountsId>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccountsId<
-    TData = Awaited<ReturnType<typeof getApiAccountsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccountsId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccountsId>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccountsId<
-    TData = Awaited<ReturnType<typeof getApiAccountsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      
 
-export function useGetApiAccountsId<
-    TData = Awaited<ReturnType<typeof getApiAccountsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiAccountsIdQueryOptions(id, options);
+      
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const patchApiAccountsId = (id: string, accountDto: AccountDto) => {
-    return orvalClient<Account>({
-        url: `https://localhost:7017/api/accounts/${id}`,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        data: accountDto,
-    });
-};
+export type GetApiAccountsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAccounts>>>
+export type GetApiAccountsQueryError = void
 
-export const getPatchApiAccountsIdMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+
+export function useGetApiAccounts<TData = Awaited<ReturnType<typeof getApiAccounts>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccounts>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccounts>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccounts<TData = Awaited<ReturnType<typeof getApiAccounts>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccounts>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccounts>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccounts<TData = Awaited<ReturnType<typeof getApiAccounts>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiAccounts<TData = Awaited<ReturnType<typeof getApiAccounts>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccounts>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiAccountsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const postApiAccounts = (
+    accountDto: AccountDto,
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<Account>(
+      {url: `https://localhost:7017/api/accounts`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: accountDto, signal
+    },
+      );
+    }
+  
+
+
+export const getPostApiAccountsMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError,{data: AccountDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError,{data: AccountDto}, TContext> => {
+
+const mutationKey = ['postApiAccounts'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAccounts>>, {data: AccountDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiAccounts(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiAccountsMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAccounts>>>
+    export type PostApiAccountsMutationBody = AccountDto
+    export type PostApiAccountsMutationError = void
+
+    export const usePostApiAccounts = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAccounts>>, TError,{data: AccountDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postApiAccounts>>,
+        TError,
+        {data: AccountDto},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApiAccountsMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiAccountsId = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<Account>(
+      {url: `https://localhost:7017/api/accounts/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetApiAccountsIdQueryKey = (id?: string,) => {
+    return [
+    `https://localhost:7017/api/accounts/${id}`
+    ] as const;
+    }
+
+    
+export const getGetApiAccountsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiAccountsId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiAccountsIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccountsId>>> = ({ signal }) => getApiAccountsId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiAccountsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAccountsId>>>
+export type GetApiAccountsIdQueryError = void
+
+
+export function useGetApiAccountsId<TData = Awaited<ReturnType<typeof getApiAccountsId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccountsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccountsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccountsId<TData = Awaited<ReturnType<typeof getApiAccountsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccountsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccountsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccountsId<TData = Awaited<ReturnType<typeof getApiAccountsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiAccountsId<TData = Awaited<ReturnType<typeof getApiAccountsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountsId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiAccountsIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const patchApiAccountsId = (
+    id: string,
+    accountDto: AccountDto,
+ ) => {
+      
+      
+      return orvalClient<Account>(
+      {url: `https://localhost:7017/api/accounts/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: accountDto
+    },
+      );
+    }
+  
+
+
+export const getPatchApiAccountsIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiAccountsId>>, TError,{id: string;data: AccountDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiAccountsId>>, TError,{id: string;data: AccountDto}, TContext> => {
+
+const mutationKey = ['patchApiAccountsId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiAccountsId>>, {id: string;data: AccountDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  patchApiAccountsId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiAccountsIdMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiAccountsId>>>
+    export type PatchApiAccountsIdMutationBody = AccountDto
+    export type PatchApiAccountsIdMutationError = void
+
+    export const usePatchApiAccountsId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiAccountsId>>, TError,{id: string;data: AccountDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiAccountsId>>,
         TError,
-        { id: string; data: AccountDto },
+        {id: string;data: AccountDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiAccountsId>>,
-    TError,
-    { id: string; data: AccountDto },
-    TContext
-> => {
-    const mutationKey = ["patchApiAccountsId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof patchApiAccountsId>>,
-        { id: string; data: AccountDto }
-    > = props => {
-        const { id, data } = props ?? {};
+      const mutationOptions = getPatchApiAccountsIdMutationOptions(options);
 
-        return patchApiAccountsId(id, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PatchApiAccountsIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof patchApiAccountsId>>
->;
-export type PatchApiAccountsIdMutationBody = AccountDto;
-export type PatchApiAccountsIdMutationError = void;
-
-export const usePatchApiAccountsId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof patchApiAccountsId>>,
-            TError,
-            { id: string; data: AccountDto },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const deleteApiAccountsId = (
+    id: string,
+ ) => {
+      
+      
+      return orvalClient<void>(
+      {url: `https://localhost:7017/api/accounts/${id}`, method: 'DELETE'
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof patchApiAccountsId>>,
-    TError,
-    { id: string; data: AccountDto },
-    TContext
-> => {
-    const mutationOptions = getPatchApiAccountsIdMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const deleteApiAccountsId = (id: string) => {
-    return orvalClient<void>({
-        url: `https://localhost:7017/api/accounts/${id}`,
-        method: "DELETE",
-    });
-};
+export const getDeleteApiAccountsIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError,{id: string}, TContext> => {
 
-export const getDeleteApiAccountsIdMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+const mutationKey = ['deleteApiAccountsId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiAccountsId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteApiAccountsId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiAccountsIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiAccountsId>>>
+    
+    export type DeleteApiAccountsIdMutationError = void
+
+    export const useDeleteApiAccountsId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAccountsId>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiAccountsId>>,
         TError,
-        { id: string },
+        {id: string},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof deleteApiAccountsId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationKey = ["deleteApiAccountsId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof deleteApiAccountsId>>,
-        { id: string }
-    > = props => {
-        const { id } = props ?? {};
+      const mutationOptions = getDeleteApiAccountsIdMutationOptions(options);
 
-        return deleteApiAccountsId(id);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type DeleteApiAccountsIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof deleteApiAccountsId>>
->;
-
-export type DeleteApiAccountsIdMutationError = void;
-
-export const useDeleteApiAccountsId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof deleteApiAccountsId>>,
-            TError,
-            { id: string },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiAccountTransactions = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<AccountTransaction[]>(
+      {url: `https://localhost:7017/api/account-transactions`, method: 'GET', signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof deleteApiAccountsId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationOptions = getDeleteApiAccountsIdMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const getApiAccountTransactions = (signal?: AbortSignal) => {
-    return orvalClient<AccountTransaction[]>({
-        url: `https://localhost:7017/api/account-transactions`,
-        method: "GET",
-        signal,
-    });
-};
 
 export const getGetApiAccountTransactionsQueryKey = () => {
-    return [`https://localhost:7017/api/account-transactions`] as const;
-};
+    return [
+    `https://localhost:7017/api/account-transactions`
+    ] as const;
+    }
 
-export const getGetApiAccountTransactionsQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiAccountTransactions>>,
-    TError = void,
->(options?: {
-    query?: Partial<
-        UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>
-    >;
-}) => {
-    const { query: queryOptions } = options ?? {};
+    
+export const getGetApiAccountTransactionsQueryOptions = <TData = Awaited<ReturnType<typeof getApiAccountTransactions>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>>, }
+) => {
 
-    const queryKey = queryOptions?.queryKey ?? getGetApiAccountTransactionsQueryKey();
+const {query: queryOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccountTransactions>>> = ({
-        signal,
-    }) => getApiAccountTransactions(signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetApiAccountTransactionsQueryKey();
 
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAccountTransactions>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetApiAccountTransactionsQueryResult = NonNullable<
-    Awaited<ReturnType<typeof getApiAccountTransactions>>
->;
-export type GetApiAccountTransactionsQueryError = void;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccountTransactions>>> = ({ signal }) => getApiAccountTransactions(signal);
 
-export function useGetApiAccountTransactions<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactions>>,
-    TError = void,
->(
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccountTransactions>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccountTransactions>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccountTransactions<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactions>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccountTransactions>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccountTransactions>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccountTransactions<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactions>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      
 
-export function useGetApiAccountTransactions<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactions>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiAccountTransactionsQueryOptions(options);
+      
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
+
+export type GetApiAccountTransactionsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAccountTransactions>>>
+export type GetApiAccountTransactionsQueryError = void
+
+
+export function useGetApiAccountTransactions<TData = Awaited<ReturnType<typeof getApiAccountTransactions>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccountTransactions>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccountTransactions>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccountTransactions<TData = Awaited<ReturnType<typeof getApiAccountTransactions>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccountTransactions>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccountTransactions>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccountTransactions<TData = Awaited<ReturnType<typeof getApiAccountTransactions>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiAccountTransactions<TData = Awaited<ReturnType<typeof getApiAccountTransactions>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactions>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiAccountTransactionsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 
 export const postApiAccountTransactions = (
     createAccountTransactionDto: CreateAccountTransactionDto,
-    signal?: AbortSignal,
+ signal?: AbortSignal
 ) => {
-    return orvalClient<AccountTransaction>({
-        url: `https://localhost:7017/api/account-transactions`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: createAccountTransactionDto,
-        signal,
-    });
-};
+      
+      
+      return orvalClient<AccountTransaction>(
+      {url: `https://localhost:7017/api/account-transactions`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createAccountTransactionDto, signal
+    },
+      );
+    }
+  
 
-export const getPostApiAccountTransactionsMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+
+export const getPostApiAccountTransactionsMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAccountTransactions>>, TError,{data: CreateAccountTransactionDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiAccountTransactions>>, TError,{data: CreateAccountTransactionDto}, TContext> => {
+
+const mutationKey = ['postApiAccountTransactions'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAccountTransactions>>, {data: CreateAccountTransactionDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiAccountTransactions(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiAccountTransactionsMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAccountTransactions>>>
+    export type PostApiAccountTransactionsMutationBody = CreateAccountTransactionDto
+    export type PostApiAccountTransactionsMutationError = void
+
+    export const usePostApiAccountTransactions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAccountTransactions>>, TError,{data: CreateAccountTransactionDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiAccountTransactions>>,
         TError,
-        { data: CreateAccountTransactionDto },
+        {data: CreateAccountTransactionDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAccountTransactions>>,
-    TError,
-    { data: CreateAccountTransactionDto },
-    TContext
-> => {
-    const mutationKey = ["postApiAccountTransactions"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiAccountTransactions>>,
-        { data: CreateAccountTransactionDto }
-    > = props => {
-        const { data } = props ?? {};
+      const mutationOptions = getPostApiAccountTransactionsMutationOptions(options);
 
-        return postApiAccountTransactions(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiAccountTransactionsMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiAccountTransactions>>
->;
-export type PostApiAccountTransactionsMutationBody = CreateAccountTransactionDto;
-export type PostApiAccountTransactionsMutationError = void;
-
-export const usePostApiAccountTransactions = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiAccountTransactions>>,
-            TError,
-            { data: CreateAccountTransactionDto },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postApiAccountTransactions>>,
-    TError,
-    { data: CreateAccountTransactionDto },
-    TContext
-> => {
-    const mutationOptions = getPostApiAccountTransactionsMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
-
-export const getApiAccountTransactionsId = (id: string, signal?: AbortSignal) => {
-    return orvalClient<AccountTransaction>({
-        url: `https://localhost:7017/api/account-transactions/${id}`,
-        method: "GET",
-        signal,
-    });
-};
-
-export const getGetApiAccountTransactionsIdQueryKey = (id?: string) => {
-    return [`https://localhost:7017/api/account-transactions/${id}`] as const;
-};
-
-export const getGetApiAccountTransactionsIdQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-    TError = void,
->(
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiAccountTransactionsId = (
     id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>
-        >;
-    },
+ signal?: AbortSignal
 ) => {
-    const { query: queryOptions } = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getGetApiAccountTransactionsIdQueryKey(id);
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccountTransactionsId>>> = ({
-        signal,
-    }) => getApiAccountTransactionsId(id, signal);
-
-    return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetApiAccountTransactionsIdQueryResult = NonNullable<
-    Awaited<ReturnType<typeof getApiAccountTransactionsId>>
->;
-export type GetApiAccountTransactionsIdQueryError = void;
-
-export function useGetApiAccountTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccountTransactionsId>>
-                >,
-                "initialData"
-            >;
+      
+      
+      return orvalClient<AccountTransaction>(
+      {url: `https://localhost:7017/api/account-transactions/${id}`, method: 'GET', signal
     },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccountTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiAccountTransactionsId>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiAccountTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      );
+    }
+  
 
-export function useGetApiAccountTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiAccountTransactionsIdQueryOptions(id, options);
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
 
-    query.queryKey = queryOptions.queryKey;
+export const getGetApiAccountTransactionsIdQueryKey = (id?: string,) => {
+    return [
+    `https://localhost:7017/api/account-transactions/${id}`
+    ] as const;
+    }
 
-    return query;
+    
+export const getGetApiAccountTransactionsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiAccountTransactionsIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAccountTransactionsId>>> = ({ signal }) => getApiAccountTransactionsId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
+
+export type GetApiAccountTransactionsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAccountTransactionsId>>>
+export type GetApiAccountTransactionsIdQueryError = void
+
+
+export function useGetApiAccountTransactionsId<TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccountTransactionsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccountTransactionsId<TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiAccountTransactionsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiAccountTransactionsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiAccountTransactionsId<TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiAccountTransactionsId<TData = Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAccountTransactionsId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiAccountTransactionsIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 
 export const patchApiAccountTransactionsId = (
     id: string,
     accountTransactionDto: AccountTransactionDto,
+ ) => {
+      
+      
+      return orvalClient<AccountTransaction>(
+      {url: `https://localhost:7017/api/account-transactions/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: accountTransactionDto
+    },
+      );
+    }
+  
+
+
+export const getPatchApiAccountTransactionsIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiAccountTransactionsId>>, TError,{id: string;data: AccountTransactionDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiAccountTransactionsId>>, TError,{id: string;data: AccountTransactionDto}, TContext> => {
+
+const mutationKey = ['patchApiAccountTransactionsId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiAccountTransactionsId>>, {id: string;data: AccountTransactionDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  patchApiAccountTransactionsId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiAccountTransactionsIdMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiAccountTransactionsId>>>
+    export type PatchApiAccountTransactionsIdMutationBody = AccountTransactionDto
+    export type PatchApiAccountTransactionsIdMutationError = void
+
+    export const usePatchApiAccountTransactionsId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiAccountTransactionsId>>, TError,{id: string;data: AccountTransactionDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof patchApiAccountTransactionsId>>,
+        TError,
+        {id: string;data: AccountTransactionDto},
+        TContext
+      > => {
+
+      const mutationOptions = getPatchApiAccountTransactionsIdMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const deleteApiAccountTransactionsId = (
+    id: string,
+ ) => {
+      
+      
+      return orvalClient<void>(
+      {url: `https://localhost:7017/api/account-transactions/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteApiAccountTransactionsIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deleteApiAccountTransactionsId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteApiAccountTransactionsId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiAccountTransactionsIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>>
+    
+    export type DeleteApiAccountTransactionsIdMutationError = void
+
+    export const useDeleteApiAccountTransactionsId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteApiAccountTransactionsIdMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const postApiAuthLogin = (
+    sessionDto: SessionDto,
+ signal?: AbortSignal
 ) => {
-    return orvalClient<AccountTransaction>({
-        url: `https://localhost:7017/api/account-transactions/${id}`,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        data: accountTransactionDto,
-    });
-};
-
-export const getPatchApiAccountTransactionsIdMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof patchApiAccountTransactionsId>>,
-        TError,
-        { id: string; data: AccountTransactionDto },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiAccountTransactionsId>>,
-    TError,
-    { id: string; data: AccountTransactionDto },
-    TContext
-> => {
-    const mutationKey = ["patchApiAccountTransactionsId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof patchApiAccountTransactionsId>>,
-        { id: string; data: AccountTransactionDto }
-    > = props => {
-        const { id, data } = props ?? {};
-
-        return patchApiAccountTransactionsId(id, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PatchApiAccountTransactionsIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof patchApiAccountTransactionsId>>
->;
-export type PatchApiAccountTransactionsIdMutationBody = AccountTransactionDto;
-export type PatchApiAccountTransactionsIdMutationError = void;
-
-export const usePatchApiAccountTransactionsId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof patchApiAccountTransactionsId>>,
-            TError,
-            { id: string; data: AccountTransactionDto },
-            TContext
-        >;
+      
+      
+      return orvalClient<TokenDto>(
+      {url: `https://localhost:7017/api/auth/login`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: sessionDto, signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof patchApiAccountTransactionsId>>,
-    TError,
-    { id: string; data: AccountTransactionDto },
-    TContext
-> => {
-    const mutationOptions = getPatchApiAccountTransactionsIdMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const deleteApiAccountTransactionsId = (id: string) => {
-    return orvalClient<void>({
-        url: `https://localhost:7017/api/account-transactions/${id}`,
-        method: "DELETE",
-    });
-};
+export const getPostApiAuthLoginMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogin>>, TError,{data: SessionDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogin>>, TError,{data: SessionDto}, TContext> => {
 
-export const getDeleteApiAccountTransactionsIdMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>,
-        TError,
-        { id: string },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationKey = ["deleteApiAccountTransactionsId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+const mutationKey = ['postApiAuthLogin'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>,
-        { id: string }
-    > = props => {
-        const { id } = props ?? {};
+      
 
-        return deleteApiAccountTransactionsId(id);
-    };
 
-    return { mutationFn, ...mutationOptions };
-};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAuthLogin>>, {data: SessionDto}> = (props) => {
+          const {data} = props ?? {};
 
-export type DeleteApiAccountTransactionsIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>
->;
+          return  postApiAuthLogin(data,)
+        }
 
-export type DeleteApiAccountTransactionsIdMutationError = void;
+        
 
-export const useDeleteApiAccountTransactionsId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>,
-            TError,
-            { id: string },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof deleteApiAccountTransactionsId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationOptions = getDeleteApiAccountTransactionsIdMutationOptions(options);
 
-    return useMutation(mutationOptions, queryClient);
-};
+  return  { mutationFn, ...mutationOptions }}
 
-export const postApiAuthLogin = (sessionDto: SessionDto, signal?: AbortSignal) => {
-    return orvalClient<TokenDto>({
-        url: `https://localhost:7017/api/auth/login`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: sessionDto,
-        signal,
-    });
-};
+    export type PostApiAuthLoginMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAuthLogin>>>
+    export type PostApiAuthLoginMutationBody = SessionDto
+    export type PostApiAuthLoginMutationError = void
 
-export const getPostApiAuthLoginMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+    export const usePostApiAuthLogin = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogin>>, TError,{data: SessionDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiAuthLogin>>,
         TError,
-        { data: SessionDto },
+        {data: SessionDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthLogin>>,
-    TError,
-    { data: SessionDto },
-    TContext
-> => {
-    const mutationKey = ["postApiAuthLogin"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiAuthLogin>>,
-        { data: SessionDto }
-    > = props => {
-        const { data } = props ?? {};
+      const mutationOptions = getPostApiAuthLoginMutationOptions(options);
 
-        return postApiAuthLogin(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiAuthLoginMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiAuthLogin>>
->;
-export type PostApiAuthLoginMutationBody = SessionDto;
-export type PostApiAuthLoginMutationError = void;
-
-export const usePostApiAuthLogin = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiAuthLogin>>,
-            TError,
-            { data: SessionDto },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const postApiAuthRefresh = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<TokenDto>(
+      {url: `https://localhost:7017/api/auth/refresh`, method: 'POST', signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postApiAuthLogin>>,
-    TError,
-    { data: SessionDto },
-    TContext
-> => {
-    const mutationOptions = getPostApiAuthLoginMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const postApiAuthRefresh = (signal?: AbortSignal) => {
-    return orvalClient<TokenDto>({
-        url: `https://localhost:7017/api/auth/refresh`,
-        method: "POST",
-        signal,
-    });
-};
+export const getPostApiAuthRefreshMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRefresh>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRefresh>>, TError,void, TContext> => {
 
-export const getPostApiAuthRefreshMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+const mutationKey = ['postApiAuthRefresh'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAuthRefresh>>, void> = () => {
+          
+
+          return  postApiAuthRefresh()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiAuthRefreshMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAuthRefresh>>>
+    
+    export type PostApiAuthRefreshMutationError = void
+
+    export const usePostApiAuthRefresh = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRefresh>>, TError,void, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiAuthRefresh>>,
         TError,
         void,
         TContext
-    >;
-}): UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRefresh>>, TError, void, TContext> => {
-    const mutationKey = ["postApiAuthRefresh"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiAuthRefresh>>,
-        void
-    > = () => {
-        return postApiAuthRefresh();
-    };
+      const mutationOptions = getPostApiAuthRefreshMutationOptions(options);
 
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiAuthRefreshMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiAuthRefresh>>
->;
-
-export type PostApiAuthRefreshMutationError = void;
-
-export const usePostApiAuthRefresh = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiAuthRefresh>>,
-            TError,
-            void,
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const postApiAuthRegister = (
+    addUserDto: AddUserDto,
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<TokenDto>(
+      {url: `https://localhost:7017/api/auth/register`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: addUserDto, signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof postApiAuthRefresh>>, TError, void, TContext> => {
-    const mutationOptions = getPostApiAuthRefreshMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const postApiAuthRegister = (addUserDto: AddUserDto, signal?: AbortSignal) => {
-    return orvalClient<TokenDto>({
-        url: `https://localhost:7017/api/auth/register`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: addUserDto,
-        signal,
-    });
-};
+export const getPostApiAuthRegisterMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRegister>>, TError,{data: AddUserDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRegister>>, TError,{data: AddUserDto}, TContext> => {
 
-export const getPostApiAuthRegisterMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+const mutationKey = ['postApiAuthRegister'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAuthRegister>>, {data: AddUserDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiAuthRegister(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiAuthRegisterMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAuthRegister>>>
+    export type PostApiAuthRegisterMutationBody = AddUserDto
+    export type PostApiAuthRegisterMutationError = void
+
+    export const usePostApiAuthRegister = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthRegister>>, TError,{data: AddUserDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiAuthRegister>>,
         TError,
-        { data: AddUserDto },
+        {data: AddUserDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthRegister>>,
-    TError,
-    { data: AddUserDto },
-    TContext
-> => {
-    const mutationKey = ["postApiAuthRegister"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiAuthRegister>>,
-        { data: AddUserDto }
-    > = props => {
-        const { data } = props ?? {};
+      const mutationOptions = getPostApiAuthRegisterMutationOptions(options);
 
-        return postApiAuthRegister(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiAuthRegisterMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiAuthRegister>>
->;
-export type PostApiAuthRegisterMutationBody = AddUserDto;
-export type PostApiAuthRegisterMutationError = void;
-
-export const usePostApiAuthRegister = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiAuthRegister>>,
-            TError,
-            { data: AddUserDto },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const postApiAuthLogout = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<void>(
+      {url: `https://localhost:7017/api/auth/logout`, method: 'POST', signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postApiAuthRegister>>,
-    TError,
-    { data: AddUserDto },
-    TContext
-> => {
-    const mutationOptions = getPostApiAuthRegisterMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const postApiAuthLogout = (signal?: AbortSignal) => {
-    return orvalClient<void>({
-        url: `https://localhost:7017/api/auth/logout`,
-        method: "POST",
-        signal,
-    });
-};
+export const getPostApiAuthLogoutMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogout>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogout>>, TError,void, TContext> => {
 
-export const getPostApiAuthLogoutMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+const mutationKey = ['postApiAuthLogout'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAuthLogout>>, void> = () => {
+          
+
+          return  postApiAuthLogout()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiAuthLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAuthLogout>>>
+    
+    export type PostApiAuthLogoutMutationError = void
+
+    export const usePostApiAuthLogout = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogout>>, TError,void, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiAuthLogout>>,
         TError,
         void,
         TContext
-    >;
-}): UseMutationOptions<Awaited<ReturnType<typeof postApiAuthLogout>>, TError, void, TContext> => {
-    const mutationKey = ["postApiAuthLogout"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiAuthLogout>>,
-        void
-    > = () => {
-        return postApiAuthLogout();
-    };
+      const mutationOptions = getPostApiAuthLogoutMutationOptions(options);
 
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiAuthLogoutMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiAuthLogout>>
->;
-
-export type PostApiAuthLogoutMutationError = void;
-
-export const usePostApiAuthLogout = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiAuthLogout>>,
-            TError,
-            void,
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiEnvelopes = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<Envelope[]>(
+      {url: `https://localhost:7017/api/envelopes`, method: 'GET', signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof postApiAuthLogout>>, TError, void, TContext> => {
-    const mutationOptions = getPostApiAuthLogoutMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const getApiEnvelopes = (signal?: AbortSignal) => {
-    return orvalClient<Envelope[]>({
-        url: `https://localhost:7017/api/envelopes`,
-        method: "GET",
-        signal,
-    });
-};
 
 export const getGetApiEnvelopesQueryKey = () => {
-    return [`https://localhost:7017/api/envelopes`] as const;
-};
+    return [
+    `https://localhost:7017/api/envelopes`
+    ] as const;
+    }
 
-export const getGetApiEnvelopesQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiEnvelopes>>,
-    TError = void,
->(options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>>;
-}) => {
-    const { query: queryOptions } = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getGetApiEnvelopesQueryKey();
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopes>>> = ({ signal }) =>
-        getApiEnvelopes(signal);
-
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiEnvelopes>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetApiEnvelopesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiEnvelopes>>>;
-export type GetApiEnvelopesQueryError = void;
-
-export function useGetApiEnvelopes<
-    TData = Awaited<ReturnType<typeof getApiEnvelopes>>,
-    TError = void,
->(
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopes>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopes>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopes<
-    TData = Awaited<ReturnType<typeof getApiEnvelopes>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopes>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopes>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopes<
-    TData = Awaited<ReturnType<typeof getApiEnvelopes>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-export function useGetApiEnvelopes<
-    TData = Awaited<ReturnType<typeof getApiEnvelopes>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiEnvelopesQueryOptions(options);
-
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
-}
-
-export const postApiEnvelopes = (envelopeDto: EnvelopeDto, signal?: AbortSignal) => {
-    return orvalClient<Envelope>({
-        url: `https://localhost:7017/api/envelopes`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: envelopeDto,
-        signal,
-    });
-};
-
-export const getPostApiEnvelopesMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postApiEnvelopes>>,
-        TError,
-        { data: EnvelopeDto },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postApiEnvelopes>>,
-    TError,
-    { data: EnvelopeDto },
-    TContext
-> => {
-    const mutationKey = ["postApiEnvelopes"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiEnvelopes>>,
-        { data: EnvelopeDto }
-    > = props => {
-        const { data } = props ?? {};
-
-        return postApiEnvelopes(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiEnvelopesMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiEnvelopes>>
->;
-export type PostApiEnvelopesMutationBody = EnvelopeDto;
-export type PostApiEnvelopesMutationError = void;
-
-export const usePostApiEnvelopes = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiEnvelopes>>,
-            TError,
-            { data: EnvelopeDto },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postApiEnvelopes>>,
-    TError,
-    { data: EnvelopeDto },
-    TContext
-> => {
-    const mutationOptions = getPostApiEnvelopesMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
-
-export const getApiEnvelopesId = (id: string, signal?: AbortSignal) => {
-    return orvalClient<Envelope>({
-        url: `https://localhost:7017/api/envelopes/${id}`,
-        method: "GET",
-        signal,
-    });
-};
-
-export const getGetApiEnvelopesIdQueryKey = (id?: string) => {
-    return [`https://localhost:7017/api/envelopes/${id}`] as const;
-};
-
-export const getGetApiEnvelopesIdQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiEnvelopesId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>
-        >;
-    },
+    
+export const getGetApiEnvelopesQueryOptions = <TData = Awaited<ReturnType<typeof getApiEnvelopes>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>>, }
 ) => {
-    const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetApiEnvelopesIdQueryKey(id);
+const {query: queryOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopesId>>> = ({ signal }) =>
-        getApiEnvelopesId(id, signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetApiEnvelopesQueryKey();
 
-    return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiEnvelopesId>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetApiEnvelopesIdQueryResult = NonNullable<
-    Awaited<ReturnType<typeof getApiEnvelopesId>>
->;
-export type GetApiEnvelopesIdQueryError = void;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopes>>> = ({ signal }) => getApiEnvelopes(signal);
 
-export function useGetApiEnvelopesId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopesId>>,
-    TError = void,
->(
-    id: string,
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopesId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopesId>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopesId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopesId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopesId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopesId>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopesId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopesId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      
 
-export function useGetApiEnvelopesId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopesId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiEnvelopesIdQueryOptions(id, options);
+      
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const patchApiEnvelopesId = (id: string, envelopeDto: EnvelopeDto) => {
-    return orvalClient<void>({
-        url: `https://localhost:7017/api/envelopes/${id}`,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        data: envelopeDto,
-    });
-};
+export type GetApiEnvelopesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiEnvelopes>>>
+export type GetApiEnvelopesQueryError = void
 
-export const getPatchApiEnvelopesIdMutationOptions = <TError = void, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
+
+export function useGetApiEnvelopes<TData = Awaited<ReturnType<typeof getApiEnvelopes>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopes>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopes>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopes<TData = Awaited<ReturnType<typeof getApiEnvelopes>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopes>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopes>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopes<TData = Awaited<ReturnType<typeof getApiEnvelopes>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiEnvelopes<TData = Awaited<ReturnType<typeof getApiEnvelopes>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopes>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiEnvelopesQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const postApiEnvelopes = (
+    envelopeDto: EnvelopeDto,
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<Envelope>(
+      {url: `https://localhost:7017/api/envelopes`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: envelopeDto, signal
+    },
+      );
+    }
+  
+
+
+export const getPostApiEnvelopesMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiEnvelopes>>, TError,{data: EnvelopeDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiEnvelopes>>, TError,{data: EnvelopeDto}, TContext> => {
+
+const mutationKey = ['postApiEnvelopes'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiEnvelopes>>, {data: EnvelopeDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiEnvelopes(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiEnvelopesMutationResult = NonNullable<Awaited<ReturnType<typeof postApiEnvelopes>>>
+    export type PostApiEnvelopesMutationBody = EnvelopeDto
+    export type PostApiEnvelopesMutationError = void
+
+    export const usePostApiEnvelopes = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiEnvelopes>>, TError,{data: EnvelopeDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postApiEnvelopes>>,
+        TError,
+        {data: EnvelopeDto},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApiEnvelopesMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiEnvelopesId = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<Envelope>(
+      {url: `https://localhost:7017/api/envelopes/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetApiEnvelopesIdQueryKey = (id?: string,) => {
+    return [
+    `https://localhost:7017/api/envelopes/${id}`
+    ] as const;
+    }
+
+    
+export const getGetApiEnvelopesIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiEnvelopesId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiEnvelopesIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopesId>>> = ({ signal }) => getApiEnvelopesId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiEnvelopesIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiEnvelopesId>>>
+export type GetApiEnvelopesIdQueryError = void
+
+
+export function useGetApiEnvelopesId<TData = Awaited<ReturnType<typeof getApiEnvelopesId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopesId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopesId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopesId<TData = Awaited<ReturnType<typeof getApiEnvelopesId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopesId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopesId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopesId<TData = Awaited<ReturnType<typeof getApiEnvelopesId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiEnvelopesId<TData = Awaited<ReturnType<typeof getApiEnvelopesId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopesId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiEnvelopesIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const patchApiEnvelopesId = (
+    id: string,
+    envelopeDto: EnvelopeDto,
+ ) => {
+      
+      
+      return orvalClient<void>(
+      {url: `https://localhost:7017/api/envelopes/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: envelopeDto
+    },
+      );
+    }
+  
+
+
+export const getPatchApiEnvelopesIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiEnvelopesId>>, TError,{id: string;data: EnvelopeDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiEnvelopesId>>, TError,{id: string;data: EnvelopeDto}, TContext> => {
+
+const mutationKey = ['patchApiEnvelopesId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiEnvelopesId>>, {id: string;data: EnvelopeDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  patchApiEnvelopesId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiEnvelopesIdMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiEnvelopesId>>>
+    export type PatchApiEnvelopesIdMutationBody = EnvelopeDto
+    export type PatchApiEnvelopesIdMutationError = void
+
+    export const usePatchApiEnvelopesId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiEnvelopesId>>, TError,{id: string;data: EnvelopeDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiEnvelopesId>>,
         TError,
-        { id: string; data: EnvelopeDto },
+        {id: string;data: EnvelopeDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiEnvelopesId>>,
-    TError,
-    { id: string; data: EnvelopeDto },
-    TContext
-> => {
-    const mutationKey = ["patchApiEnvelopesId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof patchApiEnvelopesId>>,
-        { id: string; data: EnvelopeDto }
-    > = props => {
-        const { id, data } = props ?? {};
+      const mutationOptions = getPatchApiEnvelopesIdMutationOptions(options);
 
-        return patchApiEnvelopesId(id, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PatchApiEnvelopesIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof patchApiEnvelopesId>>
->;
-export type PatchApiEnvelopesIdMutationBody = EnvelopeDto;
-export type PatchApiEnvelopesIdMutationError = void;
-
-export const usePatchApiEnvelopesId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof patchApiEnvelopesId>>,
-            TError,
-            { id: string; data: EnvelopeDto },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const deleteApiEnvelopesId = (
+    id: string,
+ ) => {
+      
+      
+      return orvalClient<void>(
+      {url: `https://localhost:7017/api/envelopes/${id}`, method: 'DELETE'
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof patchApiEnvelopesId>>,
-    TError,
-    { id: string; data: EnvelopeDto },
-    TContext
-> => {
-    const mutationOptions = getPatchApiEnvelopesIdMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const deleteApiEnvelopesId = (id: string) => {
-    return orvalClient<void>({
-        url: `https://localhost:7017/api/envelopes/${id}`,
-        method: "DELETE",
-    });
-};
+export const getDeleteApiEnvelopesIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiEnvelopesId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiEnvelopesId>>, TError,{id: string}, TContext> => {
 
-export const getDeleteApiEnvelopesIdMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+const mutationKey = ['deleteApiEnvelopesId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiEnvelopesId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteApiEnvelopesId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiEnvelopesIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiEnvelopesId>>>
+    
+    export type DeleteApiEnvelopesIdMutationError = void
+
+    export const useDeleteApiEnvelopesId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiEnvelopesId>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiEnvelopesId>>,
         TError,
-        { id: string },
+        {id: string},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof deleteApiEnvelopesId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationKey = ["deleteApiEnvelopesId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof deleteApiEnvelopesId>>,
-        { id: string }
-    > = props => {
-        const { id } = props ?? {};
+      const mutationOptions = getDeleteApiEnvelopesIdMutationOptions(options);
 
-        return deleteApiEnvelopesId(id);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type DeleteApiEnvelopesIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof deleteApiEnvelopesId>>
->;
-
-export type DeleteApiEnvelopesIdMutationError = void;
-
-export const useDeleteApiEnvelopesId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof deleteApiEnvelopesId>>,
-            TError,
-            { id: string },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiEnvelopeTransactions = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return orvalClient<EnvelopeTransaction[]>(
+      {url: `https://localhost:7017/api/envelope-transactions`, method: 'GET', signal
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof deleteApiEnvelopesId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationOptions = getDeleteApiEnvelopesIdMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const getApiEnvelopeTransactions = (signal?: AbortSignal) => {
-    return orvalClient<EnvelopeTransaction[]>({
-        url: `https://localhost:7017/api/envelope-transactions`,
-        method: "GET",
-        signal,
-    });
-};
 
 export const getGetApiEnvelopeTransactionsQueryKey = () => {
-    return [`https://localhost:7017/api/envelope-transactions`] as const;
-};
+    return [
+    `https://localhost:7017/api/envelope-transactions`
+    ] as const;
+    }
 
-export const getGetApiEnvelopeTransactionsQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-    TError = void,
->(options?: {
-    query?: Partial<
-        UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>
-    >;
-}) => {
-    const { query: queryOptions } = options ?? {};
+    
+export const getGetApiEnvelopeTransactionsQueryOptions = <TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>>, }
+) => {
 
-    const queryKey = queryOptions?.queryKey ?? getGetApiEnvelopeTransactionsQueryKey();
+const {query: queryOptions} = options ?? {};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>> = ({
-        signal,
-    }) => getApiEnvelopeTransactions(signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetApiEnvelopeTransactionsQueryKey();
 
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetApiEnvelopeTransactionsQueryResult = NonNullable<
-    Awaited<ReturnType<typeof getApiEnvelopeTransactions>>
->;
-export type GetApiEnvelopeTransactionsQueryError = void;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>> = ({ signal }) => getApiEnvelopeTransactions(signal);
 
-export function useGetApiEnvelopeTransactions<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-    TError = void,
->(
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactions>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopeTransactions<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactions>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopeTransactions<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      
 
-export function useGetApiEnvelopeTransactions<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
-    TError = void,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiEnvelopeTransactionsQueryOptions(options);
+      
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
+
+export type GetApiEnvelopeTransactionsQueryResult = NonNullable<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>>
+export type GetApiEnvelopeTransactionsQueryError = void
+
+
+export function useGetApiEnvelopeTransactions<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopeTransactions>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopeTransactions<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopeTransactions>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopeTransactions>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopeTransactions<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiEnvelopeTransactions<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactions>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiEnvelopeTransactionsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 
 export const postApiEnvelopeTransactions = (
     createEnvelopeTransactionDto: CreateEnvelopeTransactionDto,
-    signal?: AbortSignal,
+ signal?: AbortSignal
 ) => {
-    return orvalClient<EnvelopeTransaction>({
-        url: `https://localhost:7017/api/envelope-transactions`,
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        data: createEnvelopeTransactionDto,
-        signal,
-    });
-};
+      
+      
+      return orvalClient<EnvelopeTransaction>(
+      {url: `https://localhost:7017/api/envelope-transactions`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createEnvelopeTransactionDto, signal
+    },
+      );
+    }
+  
 
-export const getPostApiEnvelopeTransactionsMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+
+export const getPostApiEnvelopeTransactionsMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiEnvelopeTransactions>>, TError,{data: CreateEnvelopeTransactionDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiEnvelopeTransactions>>, TError,{data: CreateEnvelopeTransactionDto}, TContext> => {
+
+const mutationKey = ['postApiEnvelopeTransactions'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiEnvelopeTransactions>>, {data: CreateEnvelopeTransactionDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiEnvelopeTransactions(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiEnvelopeTransactionsMutationResult = NonNullable<Awaited<ReturnType<typeof postApiEnvelopeTransactions>>>
+    export type PostApiEnvelopeTransactionsMutationBody = CreateEnvelopeTransactionDto
+    export type PostApiEnvelopeTransactionsMutationError = void
+
+    export const usePostApiEnvelopeTransactions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiEnvelopeTransactions>>, TError,{data: CreateEnvelopeTransactionDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postApiEnvelopeTransactions>>,
         TError,
-        { data: CreateEnvelopeTransactionDto },
+        {data: CreateEnvelopeTransactionDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postApiEnvelopeTransactions>>,
-    TError,
-    { data: CreateEnvelopeTransactionDto },
-    TContext
-> => {
-    const mutationKey = ["postApiEnvelopeTransactions"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postApiEnvelopeTransactions>>,
-        { data: CreateEnvelopeTransactionDto }
-    > = props => {
-        const { data } = props ?? {};
+      const mutationOptions = getPostApiEnvelopeTransactionsMutationOptions(options);
 
-        return postApiEnvelopeTransactions(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiEnvelopeTransactionsMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postApiEnvelopeTransactions>>
->;
-export type PostApiEnvelopeTransactionsMutationBody = CreateEnvelopeTransactionDto;
-export type PostApiEnvelopeTransactionsMutationError = void;
-
-export const usePostApiEnvelopeTransactions = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postApiEnvelopeTransactions>>,
-            TError,
-            { data: CreateEnvelopeTransactionDto },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postApiEnvelopeTransactions>>,
-    TError,
-    { data: CreateEnvelopeTransactionDto },
-    TContext
-> => {
-    const mutationOptions = getPostApiEnvelopeTransactionsMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
-
-export const getApiEnvelopeTransactionsId = (id: string, signal?: AbortSignal) => {
-    return orvalClient<EnvelopeTransaction>({
-        url: `https://localhost:7017/api/envelope-transactions/${id}`,
-        method: "GET",
-        signal,
-    });
-};
-
-export const getGetApiEnvelopeTransactionsIdQueryKey = (id?: string) => {
-    return [`https://localhost:7017/api/envelope-transactions/${id}`] as const;
-};
-
-export const getGetApiEnvelopeTransactionsIdQueryOptions = <
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-    TError = void,
->(
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const getApiEnvelopeTransactionsId = (
     id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>
-        >;
-    },
+ signal?: AbortSignal
 ) => {
-    const { query: queryOptions } = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getGetApiEnvelopeTransactionsIdQueryKey(id);
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>> = ({
-        signal,
-    }) => getApiEnvelopeTransactionsId(id, signal);
-
-    return { queryKey, queryFn, enabled: !!id, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetApiEnvelopeTransactionsIdQueryResult = NonNullable<
-    Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>
->;
-export type GetApiEnvelopeTransactionsIdQueryError = void;
-
-export function useGetApiEnvelopeTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options: {
-        query: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>
-                >,
-                "initialData"
-            >;
+      
+      
+      return orvalClient<EnvelopeTransaction>(
+      {url: `https://localhost:7017/api/envelope-transactions/${id}`, method: 'GET', signal
     },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopeTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-                    TError,
-                    Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>
-                >,
-                "initialData"
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetApiEnvelopeTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      );
+    }
+  
 
-export function useGetApiEnvelopeTransactionsId<
-    TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
-    TError = void,
->(
-    id: string,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>
-        >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetApiEnvelopeTransactionsIdQueryOptions(id, options);
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
 
-    query.queryKey = queryOptions.queryKey;
+export const getGetApiEnvelopeTransactionsIdQueryKey = (id?: string,) => {
+    return [
+    `https://localhost:7017/api/envelope-transactions/${id}`
+    ] as const;
+    }
 
-    return query;
+    
+export const getGetApiEnvelopeTransactionsIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError = void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiEnvelopeTransactionsIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>> = ({ signal }) => getApiEnvelopeTransactionsId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
+
+export type GetApiEnvelopeTransactionsIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>>
+export type GetApiEnvelopeTransactionsIdQueryError = void
+
+
+export function useGetApiEnvelopeTransactionsId<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError = void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopeTransactionsId<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiEnvelopeTransactionsId<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetApiEnvelopeTransactionsId<TData = Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError = void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiEnvelopeTransactionsId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiEnvelopeTransactionsIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 
 export const patchApiEnvelopeTransactionsId = (
     id: string,
     envelopeTransactionDto: EnvelopeTransactionDto,
-) => {
-    return orvalClient<EnvelopeTransaction>({
-        url: `https://localhost:7017/api/envelope-transactions/${id}`,
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        data: envelopeTransactionDto,
-    });
-};
+ ) => {
+      
+      
+      return orvalClient<EnvelopeTransaction>(
+      {url: `https://localhost:7017/api/envelope-transactions/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: envelopeTransactionDto
+    },
+      );
+    }
+  
 
-export const getPatchApiEnvelopeTransactionsIdMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+
+export const getPatchApiEnvelopeTransactionsIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>, TError,{id: string;data: EnvelopeTransactionDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>, TError,{id: string;data: EnvelopeTransactionDto}, TContext> => {
+
+const mutationKey = ['patchApiEnvelopeTransactionsId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>, {id: string;data: EnvelopeTransactionDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  patchApiEnvelopeTransactionsId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiEnvelopeTransactionsIdMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>>
+    export type PatchApiEnvelopeTransactionsIdMutationBody = EnvelopeTransactionDto
+    export type PatchApiEnvelopeTransactionsIdMutationError = void
+
+    export const usePatchApiEnvelopeTransactionsId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>, TError,{id: string;data: EnvelopeTransactionDto}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>,
         TError,
-        { id: string; data: EnvelopeTransactionDto },
+        {id: string;data: EnvelopeTransactionDto},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>,
-    TError,
-    { id: string; data: EnvelopeTransactionDto },
-    TContext
-> => {
-    const mutationKey = ["patchApiEnvelopeTransactionsId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>,
-        { id: string; data: EnvelopeTransactionDto }
-    > = props => {
-        const { id, data } = props ?? {};
+      const mutationOptions = getPatchApiEnvelopeTransactionsIdMutationOptions(options);
 
-        return patchApiEnvelopeTransactionsId(id, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PatchApiEnvelopeTransactionsIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>
->;
-export type PatchApiEnvelopeTransactionsIdMutationBody = EnvelopeTransactionDto;
-export type PatchApiEnvelopeTransactionsIdMutationError = void;
-
-export const usePatchApiEnvelopeTransactionsId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>,
-            TError,
-            { id: string; data: EnvelopeTransactionDto },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    
+export const deleteApiEnvelopeTransactionsId = (
+    id: string,
+ ) => {
+      
+      
+      return orvalClient<void>(
+      {url: `https://localhost:7017/api/envelope-transactions/${id}`, method: 'DELETE'
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof patchApiEnvelopeTransactionsId>>,
-    TError,
-    { id: string; data: EnvelopeTransactionDto },
-    TContext
-> => {
-    const mutationOptions = getPatchApiEnvelopeTransactionsIdMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
 
-export const deleteApiEnvelopeTransactionsId = (id: string) => {
-    return orvalClient<void>({
-        url: `https://localhost:7017/api/envelope-transactions/${id}`,
-        method: "DELETE",
-    });
-};
+export const getDeleteApiEnvelopeTransactionsIdMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>, TError,{id: string}, TContext> => {
 
-export const getDeleteApiEnvelopeTransactionsIdMutationOptions = <
-    TError = void,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+const mutationKey = ['deleteApiEnvelopeTransactionsId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteApiEnvelopeTransactionsId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiEnvelopeTransactionsIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>>
+    
+    export type DeleteApiEnvelopeTransactionsIdMutationError = void
+
+    export const useDeleteApiEnvelopeTransactionsId = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>,
         TError,
-        { id: string },
+        {id: string},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationKey = ["deleteApiEnvelopeTransactionsId"];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && "mutationKey" in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>,
-        { id: string }
-    > = props => {
-        const { id } = props ?? {};
+      const mutationOptions = getDeleteApiEnvelopeTransactionsIdMutationOptions(options);
 
-        return deleteApiEnvelopeTransactionsId(id);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type DeleteApiEnvelopeTransactionsIdMutationResult = NonNullable<
-    Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>
->;
-
-export type DeleteApiEnvelopeTransactionsIdMutationError = void;
-
-export const useDeleteApiEnvelopeTransactionsId = <TError = void, TContext = unknown>(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>,
-            TError,
-            { id: string },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof deleteApiEnvelopeTransactionsId>>,
-    TError,
-    { id: string },
-    TContext
-> => {
-    const mutationOptions = getDeleteApiEnvelopeTransactionsIdMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
+      return useMutation(mutationOptions, queryClient);
+    }

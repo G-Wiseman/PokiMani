@@ -57,10 +57,12 @@ export default function Navbar() {
                     <NavbarLink path="/profile" textValue="Profile" />
                 </NavigationMenu.List>
                 <NavigationMenu.List className="navbar__settings">
-                    <Button className="navbar__logout" onClick={logout}>
-                        <LogOut />
-                        Logout
-                    </Button>
+                    <NavigationMenu.Item asChild>
+                        <Button className="navbar__logout" onClick={logout}>
+                            <LogOut />
+                            Logout
+                        </Button>
+                    </NavigationMenu.Item>
                 </NavigationMenu.List>
             </NavigationMenu.Root>
         </>

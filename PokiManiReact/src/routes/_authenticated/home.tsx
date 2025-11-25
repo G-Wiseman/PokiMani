@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/home")({
 
 export default function Home() {
     const queryClient = useQueryClient();
-    const { isAuthenticated, logout } = usePokiManiAuth();
+    const { isAuthenticated } = usePokiManiAuth();
     const { mutate: newEnvelope } = usePostApiEnvelopes();
     const { data: envs } = useGetApiEnvelopes({
         query: {
@@ -33,9 +33,6 @@ export default function Home() {
     // const { data: envTs } = useGetApiEnvelopeTransactions({
     //     query: { queryKey: ["envelope-transactions"] },
     // });
-    const logit = () => {
-        console.log(queryClient.getQueryCache().getAll());
-    };
     const newEnv = () => {
         newEnvelope(
             {
