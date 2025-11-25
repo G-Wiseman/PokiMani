@@ -1,7 +1,6 @@
 import { ListBox, ListBoxItem } from "react-aria-components";
 import "./Navbar.scss";
 import { Link, useLocation } from "@tanstack/react-router";
-import { useState } from "react";
 import clsx from "clsx";
 
 function NavbarLink({ path, textValue }: { path: string; textValue: string }) {
@@ -9,7 +8,7 @@ function NavbarLink({ path, textValue }: { path: string; textValue: string }) {
 
     const checkLocation = (expected: string) => {
         return location.href === expected;
-    };
+    }; 
 
     return (
         <ListBoxItem className="navbar__item" textValue={textValue}>

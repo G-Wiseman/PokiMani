@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDeleteApiEnvelopesId, useGetApiEnvelopesId } from "../api/PokiManiApi";
 import "./EnvelopeLine.scss";
-import { NumberField, Input, ProgressBar } from "react-aria-components";
+import { NumberField, Input } from "react-aria-components";
 import { clsx } from "clsx";
 import { useQueryClient } from "@tanstack/react-query";
 
