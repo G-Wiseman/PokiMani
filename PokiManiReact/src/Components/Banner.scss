@@ -3,5 +3,19 @@
 .banner {
     flex: 1;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
     background-color: $base-300;
+
+    &__loose_cash {
+        flex: 1;
+        display: flex;
+        justify-content: start;
+    }
+
+    &__month_selector {
+        display: flex;
+        justify-content: end;
+    }
 }
