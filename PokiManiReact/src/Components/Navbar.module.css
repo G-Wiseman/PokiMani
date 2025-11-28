@@ -1,0 +1,11 @@
+.navbar {
+}
+
+.navbar__linkroot {
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.navbar__linkroot .navbar__linklabel {
+    font-size: 1.4rem;
+}

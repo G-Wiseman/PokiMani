@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useDeleteApiEnvelopesId, useGetApiEnvelopesId } from "../api/PokiManiApi";
 import "./EnvelopeLine.scss";
-import { NumberField, Input } from "react-aria-components";
 import { clsx } from "clsx";
 import { useQueryClient } from "@tanstack/react-query";
+import { NumberInput } from "@mantine/core";
+import { DollarSign } from "lucide-react";
 
 export default function EnvelopeLine({ envId }: { envId: string }) {
     const [balanceUpdate, setBalanceUpdate] = useState(0);
     const queryClient = useQueryClient();
+    const currencyIcon = <DollarSign />;
 
     const { mutateAsync: deleteAsync } = useDeleteApiEnvelopesId();
 
@@ -42,17 +44,18 @@ export default function EnvelopeLine({ envId }: { envId: string }) {
                     </div>
                 </div>
 
-                <NumberField defaultValue={0} aria-label="BalanceUpdateField">
-                    <Input
-                        onInput={e => {
-                            const value = (e.target as HTMLInputElement).value;
-                            const parsed = Number(value);
-                            if (!Number.isNaN(parsed) && Number.isFinite(parsed)) {
-                                setBalanceUpdate(parsed);
-                            }
-                        }}
-                    />
-                </NumberField>
+                <NumberInput
+                    onChange={value => {
+                        const parsed = Number(value);
+                        if (!Number.isNaN(parsed) && Number.isFinite(parsed)) {
+                            setBalanceUpdate(parsed);
+                        }
+                    }}
+                    placeholder="Update Balance"
+                    leftSection={currencyIcon}
+                    hideControls
+                    decimalScale={2}
+                ></NumberInput>
                 <button
                     className="envelopeLine__delete"
                     onClick={async () => {
@@ -60,6 +63,7 @@ export default function EnvelopeLine({ envId }: { envId: string }) {
                             { id: envId },
                             {
                                 onSuccess: () => {
+                                    queryClient.removeQueries({ queryKey: ["envelopes", envId] });
                                     queryClient.invalidateQueries({ queryKey: ["envelopes"] });
                                 },
                             },

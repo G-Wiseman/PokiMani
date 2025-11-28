@@ -1,3 +1,4 @@
+import "@mantine/core/styles.css";
 import "./index.scss";
 import { routeTree } from "./routeTree.gen";
 import { StrictMode } from "react";
@@ -9,6 +10,8 @@ import {
     type PokiManiAuthContextType,
 } from "./api/PokiManiAuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createTheme, MantineProvider } from "@mantine/core";
+import mantineTheme from "./mantineTheme";
 
 export interface RouterContext {
     auth: PokiManiAuthContextType;
@@ -26,7 +29,7 @@ declare module "@tanstack/react-router" {
     }
 }
 
-function InnerApp() {
+function RouterApp() {
     const auth = usePokiManiAuth();
     return <RouterProvider router={router} context={{ auth }} />;
 }
@@ -40,7 +43,9 @@ if (!rootElement.innerHTML) {
         <StrictMode>
             <QueryClientProvider client={queryClient}>
                 <PokiManiAuthProvider>
-                    <InnerApp />
+                    <MantineProvider defaultColorScheme="dark" theme={mantineTheme()}>
+                        <RouterApp />
+                    </MantineProvider>
                 </PokiManiAuthProvider>
             </QueryClientProvider>
         </StrictMode>,

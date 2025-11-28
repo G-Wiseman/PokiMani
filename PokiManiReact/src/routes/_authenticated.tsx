@@ -1,10 +1,11 @@
 import { createFileRoute, redirect, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { usePokiManiAuth } from "../api/PokiManiAuthProvider";
-import { Header } from "react-aria-components";
 import "./_authenticated.scss";
 import Banner from "../Components/Banner";
 import Navbar from "../Components/Navbar";
+import { AppShell, Burger, useMantineTheme } from "@mantine/core";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 export const Route = createFileRoute("/_authenticated")({
     component: AuthenticatedLayout,
     beforeLoad: async ({ context, location }) => {
@@ -28,19 +29,38 @@ export default function AuthenticatedLayout() {
             });
         }
     }, [isAuthenticated, navigate]);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    const theme = useMantineTheme();
+    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
     return (
-        <div className="layout">
-            <aside className="layout__navbar">
-                <Navbar />
-            </aside>
-            <Header className="layout__banner">
+        <AppShell
+            layout="alt"
+            padding="md"
+            navbar={{ width: 250, breakpoint: "sm" }}
+            header={{ height: 80 }}
+            footer={{ height: 80 }}
+        >
+            {/* Conditionally render Navbar only on desktop */}
+            {!isMobile && (
+                <AppShell.Navbar style={{ background: theme.colors.dark[7] }}>
+                    <Navbar />
+                </AppShell.Navbar>
+            )}
+
+            <AppShell.Header style={{ display: "flex", background: theme.colors.dark[8] }}>
                 <Banner />
-            </Header>
-            <div className="layout__content">
+            </AppShell.Header>
+
+            <AppShell.Main style={{ background: theme.colors.dark[6] }}>
                 <Outlet />
-            </div>
-        </div>
+            </AppShell.Main>
+
+            {/* Footer only on mobile */}
+            {isMobile && (
+                <AppShell.Footer style={{ display: "flex" }}>
+                    <Navbar />
+                </AppShell.Footer>
+            )}
+        </AppShell>
     );
 }
